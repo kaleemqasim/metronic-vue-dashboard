@@ -1,0 +1,26 @@
+//
+// Theme style
+//
+
+// Mode
+$mode: default;
+
+// Initialize
+@import "init";
+
+// Components
+@import "./core/components/components";
+@import "components/components";
+
+// Layout
+@import "layout/layout";
+@import "./core/layout/docs/layout";
+
+.aside-menu .menu-item {
+    padding: 0 15px;
+}
+.menu-state-title-primary .menu-item .menu-link.active {
+    color: #464E5F;
+    background: #F3F6F9;
+    border-radius: 4px;
+}
