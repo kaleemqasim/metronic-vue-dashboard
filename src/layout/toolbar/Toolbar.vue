@@ -58,10 +58,8 @@
       <!--end::Page title-->
 
       <!--begin::Actions-->
-      <div class="d-flex align-items-center py-1">
-        <!--begin::Wrapper-->
+      <!-- <div class="d-flex align-items-center py-1">
         <div class="me-4">
-          <!--begin::Menu-->
           <a
             href="#"
             class="btn btn-sm btn-flex btn-light btn-active-primary fw-bolder"
@@ -76,11 +74,7 @@
           </a>
 
           <Dropdown1></Dropdown1>
-          <!--end::Menu-->
         </div>
-        <!--end::Wrapper-->
-
-        <!--begin::Button-->
         <a
           href="#"
           class="btn btn-sm btn-primary"
@@ -90,8 +84,7 @@
         >
           Create
         </a>
-        <!--end::Button-->
-      </div>
+      </div> -->
       <!--end::Actions-->
     </div>
     <!--end::Container-->
@@ -101,7 +94,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Dropdown1 from "@/components/dropdown/Dropdown1.vue";
+// import Dropdown1 from "@/components/dropdown/Dropdown1.vue";
 import { toolbarWidthFluid } from "@/core/helpers/config";
 
 export default defineComponent({
@@ -111,7 +104,7 @@ export default defineComponent({
     title: String,
   },
   components: {
-    Dropdown1,
+    // Dropdown1,
   },
   setup() {
     return {

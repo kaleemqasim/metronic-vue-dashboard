@@ -39,7 +39,7 @@
         <!-- end:: Content Body -->
       </div>
       <!-- end:: Content -->
-      <!-- <KTFooter></KTFooter> -->
+      <KTFooter></KTFooter>
     </div>
   </div>
   <!-- end:: Body -->
@@ -56,7 +56,7 @@ import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import KTAside from "@/layout/aside/Aside.vue";
 import KTHeader from "@/layout/header/Header.vue";
-// import KTFooter from "@/layout/footer/Footer.vue";
+import KTFooter from "@/layout/footer/Footer.vue";
 import HtmlClass from "@/core/services/LayoutService";
 import KTToolbar from "@/layout/toolbar/Toolbar.vue";
 import KTScrollTop from "@/layout/extras/ScrollTop.vue";
@@ -88,7 +88,7 @@ export default defineComponent({
   components: {
     KTAside,
     KTHeader,
-    // KTFooter,
+    KTFooter,
     KTToolbar,
     KTScrollTop,
     KTCreateApp,

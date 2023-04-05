@@ -1,16 +1,16 @@
 <template>
-  <!--begin::Charts Widget 3-->
-  <div :class="widgetClasses" class="card">
+  <!--begin::Charts Widget 1-->
+  <div class="card product_perfomance" :class="widgetClasses">
     <!--begin::Header-->
     <div class="card-header border-0 pt-5">
+      <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bolder fs-3 mb-1">Transactions</span>
-
-        <span class="text-muted fw-bold fs-7">Total transaction</span>
+        <span class="card-label fw-bolder fs-3 mb-1">Product Performance</span>
       </h3>
+      <!--end::Title-->
 
       <!--begin::Toolbar-->
-      <div class="card-toolbar" data-kt-buttons="true">
+      <div class="card-toolbar widget1_toolbar" data-kt-buttons="true">
         <a
           class="
             btn btn-sm btn-color-muted btn-active btn-active-primary
@@ -19,7 +19,7 @@
             me-1
           "
           id="kt_charts_widget_3_year_btn"
-          >Year</a
+          >Entity</a
         >
 
         <a
@@ -29,13 +29,13 @@
             me-1
           "
           id="kt_charts_widget_3_month_btn"
-          >Month</a
+          >Personnel Involvement</a
         >
 
         <a
           class="btn btn-sm btn-color-muted btn-active btn-active-primary px-4"
           id="kt_charts_widget_3_week_btn"
-          >Week</a
+          >Link Relationship</a
         >
       </div>
       <!--end::Toolbar-->
@@ -45,58 +45,62 @@
     <!--begin::Body-->
     <div class="card-body">
       <!--begin::Chart-->
-      <apexchart type="area" :options="options" :series="series"></apexchart>
+      <apexchart type="bar" :options="options" :series="series"></apexchart>
       <!--end::Chart-->
     </div>
     <!--end::Body-->
   </div>
-  <!--end::Charts Widget 3-->
+  <!--end::Charts Widget 1-->
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { getCSSVariableValue } from "@/assets/ts/_utils";
+// import Dropdown1 from "@/components/dropdown/Dropdown1.vue";
 
 export default defineComponent({
   name: "widget-1",
   props: {
     widgetClasses: String,
   },
-  components: {},
+  components: {
+    // Dropdown1,
+  },
   setup() {
     const labelColor = getCSSVariableValue("--bs-gray-500");
     const borderColor = getCSSVariableValue("--bs-gray-200");
-    const baseColor = getCSSVariableValue("#3699FF");
-    const lightColor = getCSSVariableValue("--bs-light-info");
+    const baseColor = getCSSVariableValue("--bs-primary");
+    const secondaryColor = getCSSVariableValue("--bs-gray-300");
 
     const options = {
       chart: {
         fontFamily: "inherit",
-        type: "area",
-        height: 350,
+        type: "bar",
+        height: 100,
         toolbar: {
           show: false,
         },
       },
-      plotOptions: {},
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: ["30%"],
+          endingShape: "rounded",
+        },
+      },
       legend: {
         show: false,
       },
       dataLabels: {
         enabled: false,
       },
-      fill: {
-        type: "solid",
-        opacity: 1,
-      },
       stroke: {
-        curve: "smooth",
         show: true,
-        width: 3,
-        colors: [baseColor],
+        width: 2,
+        colors: ["transparent"],
       },
       xaxis: {
-        categories: ["1 Feb", "1 Mar", "1 Apr", "1 May", "1 Jun", "1 Jul", "1 Aug"],
+        categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
         axisBorder: {
           show: false,
         },
@@ -109,17 +113,6 @@ export default defineComponent({
             fontSize: "12px",
           },
         },
-        crosshairs: {
-          position: "front",
-          stroke: {
-            color: baseColor,
-            width: 1,
-            dashArray: 3,
-          },
-        },
-        tooltip: {
-          enabled: false,
-        },
       },
       yaxis: {
         labels: {
@@ -128,6 +121,9 @@ export default defineComponent({
             fontSize: "12px",
           },
         },
+      },
+      fill: {
+        opacity: 1,
       },
       states: {
         normal: {
@@ -160,7 +156,7 @@ export default defineComponent({
           },
         },
       },
-      colors: [lightColor],
+      colors: [baseColor, secondaryColor],
       grid: {
         borderColor: borderColor,
         strokeDashArray: 4,
@@ -170,16 +166,16 @@ export default defineComponent({
           },
         },
       },
-      markers: {
-        strokeColor: baseColor,
-        strokeWidth: 3,
-      },
     };
 
     const series = [
       {
         name: "Net Profit",
-        data: [30, 40, 40, 90, 90, 70, 70],
+        data: [44, 55, 57, 56, 61, 58],
+      },
+      {
+        name: "Revenue",
+        data: [76, 85, 101, 98, 87, 105],
       },
     ];
 

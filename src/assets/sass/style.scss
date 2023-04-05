@@ -16,11 +16,167 @@ $mode: default;
 @import "layout/layout";
 @import "./core/layout/docs/layout";
 
+
 .aside-menu .menu-item {
     padding: 0 15px;
 }
+
 .menu-state-title-primary .menu-item .menu-link.active {
     color: #464E5F;
     background: #F3F6F9;
     border-radius: 4px;
+}
+
+.card-toolbar .btn.btn-active-primary.active {
+    background-color: #3F4254 !important;
+}
+
+.homeCards {
+    .card_1 {
+        background: #D7F9EF;
+        border-radius: 12px;
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .text-h5 {
+            color: #3F4254;
+            font-weight: bolder !important;
+        }
+
+        .text-p {
+            color: #B5B5C3;
+        }
+
+        .svg-icon {
+            @include svg-icon-color(#0BB783);
+        }
+    }
+
+    .card_2 {
+        background: #F4E1F0;
+        border-radius: 12px;
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .text-h5 {
+            color: #3F4254;
+            font-weight: bolder !important;
+        }
+
+        .text-p {
+            color: #B5B5C3;
+        }
+
+        .svg-icon {
+            @include svg-icon-color(#663259);
+        }
+    }
+
+    .card_3 {
+        background: #E1E9FF;
+        border-radius: 12px;
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .text-h5 {
+            color: #3F4254;
+            font-weight: bolder !important;
+        }
+
+        .text-p {
+            color: #B5B5C3;
+        }
+
+        .svg-icon {
+            @include svg-icon-color(#6993FF);
+        }
+    }
+
+    .card_4 {
+        background: #FFF4DE;
+        border-radius: 12px;
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .text-h5 {
+            color: #3F4254;
+            font-weight: bolder !important;
+        }
+
+        .text-p {
+            color: #B5B5C3;
+        }
+
+        .svg-icon {
+            @include svg-icon-color(#FFA800);
+        }
+    }
+}
+
+.apexcharts-text tspan {
+    stroke: #B5B5C3;
+    stroke-width: 0px;
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-zoom {
+    stroke: #3699FF;
+}
+
+.recent_alerts {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0px 0px 30px rgba(56, 71, 109, 0.09);
+    height: 100%;
+    h5 {
+        color: #3F4254;
+        font-size: 20px;
+        line-height: 23px;
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+
+    .inner_content {
+        h6 {
+            color: #3F4254;
+            font-size: 20px;
+            line-height: 23px;
+            font-weight: 600;
+        }
+
+        p {
+            color: #7E8299;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                color: #D8D8D8;
+            }
+        }
+    }
+}
+
+.product_perfomance {
+    .widget1_toolbar {
+        border: 1px solid #EFF2F5;
+        border-radius: 6px;
+        padding: 5px;
+
+        .btn {
+            font-size: 10px;
+            padding: 5px 10px !important;
+        }
+    }
 }
