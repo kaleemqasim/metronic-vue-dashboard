@@ -381,7 +381,7 @@ export default defineComponent({
   setup() {
     onMounted(() => {
       MenuComponent.reinitialization();
-      setCurrentPageBreadcrumbs("Customer Details", ["Apps", "Customers"]);
+      setCurrentPageBreadcrumbs("User Management Details", ["User Management"]);
     });
 
     return {};

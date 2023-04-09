@@ -20,16 +20,15 @@
 		color: inherit;
 		height: inherit;
 		min-height: inherit;
-
-		&:first-child {
-			padding-left: 0;
-		}
-
 		&:last-child {
 			padding-right: 0;
 		}
 	}
-
+	thead{
+		tr{
+			background: #F5F8FA;
+		}
+	}
 	tfoot,
 	tbody {
 		tr:last-child {
@@ -67,6 +66,7 @@
 			border-bottom-width: 1px;
 			border-bottom-style: solid;
 			border-bottom-color: $border-color;
+			background: #F5F8FA;
 		}
 
 		tfoot {

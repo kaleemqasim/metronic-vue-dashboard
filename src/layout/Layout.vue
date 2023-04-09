@@ -30,7 +30,7 @@
             id="kt_content_container"
             :class="{
               'container-fluid': contentWidthFluid,
-              'container-xxl': !contentWidthFluid,
+              'container-fluid': !contentWidthFluid,
             }"
           >
             <router-view />

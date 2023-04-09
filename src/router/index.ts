@@ -23,7 +23,81 @@ const routes: Array<RouteRecordRaw> = [
         name: "user-management",
         component: () => import("@/views/user-management/UserManagement.vue"),
       },
-      
+      {
+        path: "/user-management/user-management-details",
+        name: "customers-details",
+        component: () => import("@/views/user-management/UserManagementDetails.vue"),
+      },
+      {
+        path: "/product-management/ProductListing",
+        name: "product-listing",
+        component: () => import("@/views/product-management/ProductListing.vue"),
+      },
+      {
+        path: "/product-management/AddProductListing",
+        name: "add-product-listing",
+        component: () => import("@/views/product-management/_part/AddProductListing.vue"),
+      },
+      {
+        path: "/product-management/PromotionManagement",
+        name: "promotion-management",
+        component: () => import("@/views/product-management/PromotionManagement.vue"),
+      },
+      {
+        path: "/product-management/AddPromotionManagement",
+        name: "add-promotion-management",
+        component: () => import("@/views/product-management/_part/AddPromotionManagement.vue"),
+      },
+      {
+        path: "/product-management/PromotionUsage",
+        name: "promotion-usage",
+        component: () => import("@/views/product-management/_part/PromotionUsage.vue"),
+      },
+      {
+        path: "/product-management/CouponManagement",
+        name: "coupon-management",
+        component: () => import("@/views/product-management/CouponManagement.vue"),
+      },
+      {
+        path: "/product-management/AddCouponManagement",
+        name: "add-coupon-management",
+        component: () => import("@/views/product-management/_part/AddCouponManagement.vue"),
+      },
+      {
+        path: "/product-management/CouponCreation",
+        name: "coupon-creation",
+        component: () => import("@/views/product-management/_part/CouponCreation.vue"),
+      },
+      {
+        path: "/income-statement/SalesTransaction",
+        name: "sales-transaction",
+        component: () => import("@/views/income-statement/SalesTransaction.vue"),
+      },
+      {
+        path: "/income-statement/PaymentReceipting",
+        name: "payment-receipting",
+        component: () => import("@/views/income-statement/PaymentReceipting.vue"),
+      },
+      {
+        path: "/product-analytics/ProductAnalytics",
+        name: "product-analytics",
+        component: () => import("@/views/product-analytics/ProductAnalytics.vue"),
+      },
+      {
+        path: "/product-analytics/ProductReport",
+        name: "product-report",
+        component: () => import("@/views/product-analytics/ProductReport.vue"),
+      },
+      {
+        path: "/customer-analytics/CustomerAnalytics",
+        name: "customer-analytics",
+        component: () => import("@/views/customer-analytics/CustomerAnalytics.vue"),
+      },
+      {
+        path: "/customer-analytics/CustomerReport",
+        name: "customer-report",
+        component: () => import("@/views/customer-analytics/CustomerReport.vue"),
+      },
     ]
   },
   {

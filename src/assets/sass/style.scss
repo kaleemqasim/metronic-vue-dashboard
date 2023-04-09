@@ -20,10 +20,15 @@ $mode: default;
 .aside-menu .menu-item {
     padding: 0 15px;
 }
-
+.aside-enabled.aside-fixed.toolbar-fixed .toolbar{
+    padding: 35px 0;
+}
+.breadcrumb_title{
+    display: block !important;
+}
 .menu-state-title-primary .menu-item .menu-link.active {
     color: #464E5F;
-    background: #F3F6F9;
+    background: #F3F6F9 !important;
     border-radius: 4px;
 }
 
@@ -179,4 +184,34 @@ $mode: default;
             padding: 5px 10px !important;
         }
     }
+}
+.el-select .el-input__inner{
+    background-color: #F5F8FA;
+    border-color: #F5F8FA;
+    color: #5E6278;
+    border-radius: 0.475rem;
+}
+.dateRange .el-input__inner{
+    border: 0;
+    justify-content: end;
+    padding-right: 0;
+}
+.dateRange .el-range-input{
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+}
+.dateRange .el-form-item{
+    margin: 0;
+}
+.el-select .el-input.is-focus .el-input__inner {
+    border-color: #fdfdfd;
+}
+.el-select .el-input__inner:focus {
+    border-color: #fdfdfd;
+}
+.breadCrumb_btn{
+    position: fixed;
+    right: 0;
+    top: 65px;
+    z-index: 99;
 }

@@ -5,10 +5,10 @@
               class="btn btn-sm btn-success"
               >
               <router-link
-                  to="/product-management/CouponCreation"
+                  to=""
                   class="menu-link px-3 text-gray-100"
                   >
-                  Add Coupon
+                  Download Report
                   </router-link
                 >
             </div>
@@ -16,7 +16,7 @@
       <div class="card-header border-0 pt-6">
         <!--begin::Card title-->
         <div class="card-title">
-          <h5>Coupon Management</h5>
+          <h5>Promotion Usage</h5>
         </div>
         <!--begin::Card title-->
         <!--begin::Card toolbar-->
@@ -71,17 +71,20 @@
           :enable-items-per-page-dropdown="true"
         >
           
-        <template v-slot:cell-name="{ row: customer }">
-            {{ customer.name }}
-        </template>
         <template v-slot:cell-couponCode="{ row: customer }">
-            <span class="text-success">{{ customer.couponCode }}</span>
+            <span class="text-success"> {{ customer.couponCode }}</span>
         </template>
-          <template v-slot:cell-price="{ row: customer }">
-            <span class="text-warning">{{ customer.price }}</span>
+        <template v-slot:cell-customer="{ row: customer }">
+            {{ customer.customer }}
+        </template>
+        <template v-slot:cell-used="{ row: customer }">
+             <span class="badge badge-light-success">{{ customer.used }}</span>
           </template>
           <template v-slot:cell-value="{ row: customer }">
             <span class="text-success"> {{ customer.value }}</span>
+          </template>
+          <template v-slot:cell-usage="{ row: customer }">
+             {{ customer.usage }}
           </template>
           <template v-slot:cell-startDate="{ row: customer }">
             <span class="text-info"> {{ customer.startDate }}</span>
@@ -93,7 +96,7 @@
             <div
               class="btn btn-sm btn-light text-gray-600 btn-active-light-primary"
               ><router-link
-                  to="/product-management/AddCouponManagement"
+                  to="/product-management/AddPromotionManagement"
                   class="menu-link px-3 text-gray-600"
                   >{{customer.detail }}</router-link
                 >
@@ -113,10 +116,11 @@
   
   interface ICustomer {
     id: number;
-    name: string;
     couponCode: string;
-    price: string;
+    customer: string;
+    used: string;
     value: string;
+    usage: string;
     startDate: string;
     endDate: string;
     detail:string;
@@ -131,23 +135,28 @@
       const checkedCustomers = ref([]);
       const tableHeader = ref([
         {
-          name: "Product Name",
-          key: "name",
-          sortable: true,
-        },
-        {
           name: "Coupon Code",
           key: "couponCode",
           sortable: true,
         },
         {
-          name: "Origin price",
-          key: "price",
+          name: "Customer",
+          key: "customer",
+          sortable: true,
+        },
+        {
+          name: "Used",
+          key: "used",
           sortable: true,
         },
         {
           name: "Value (RM)",
           key: "value",
+          sortable: true,
+        },
+        {
+          name: "Usage",
+          key: "usage",
           sortable: true,
         },
         {
@@ -169,9 +178,10 @@
       const customers = ref<Array<ICustomer>>([
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Company Profile",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -179,9 +189,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Company Profile",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -189,9 +200,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Max Smith",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -199,9 +211,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Sean Bean",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -209,9 +222,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Brian Cox",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -219,9 +233,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Mikaela Collins",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -229,9 +244,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Francis Mitcham",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -239,9 +255,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Olivia Wild",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -249,9 +266,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Neil Owen",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -259,9 +277,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Dan Wilson",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -269,9 +288,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Emma Bold",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -279,9 +299,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Ana Crown",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -289,9 +310,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Company Profile",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -299,9 +321,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Company Profile",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -309,9 +332,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Max Smith",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -319,9 +343,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Sean Bean",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -329,9 +354,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Brian Cox",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -339,9 +365,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Mikaela Collins",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -349,9 +376,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Francis Mitcham",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -359,9 +387,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Olivia Wild",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -369,9 +398,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Neil Owen",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -379,9 +409,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Dan Wilson",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -389,9 +420,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Emma Bold",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -399,9 +431,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Ana Crown",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -409,9 +442,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Company Profile",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -419,9 +453,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Company Profile",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -429,9 +464,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Max Smith",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -439,9 +475,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Sean Bean",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -449,9 +486,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Brian Cox",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -459,9 +497,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Mikaela Collins",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -469,9 +508,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Francis Mitcham",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -479,9 +519,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Olivia Wild",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -489,9 +530,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Neil Owen",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -499,9 +541,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Dan Wilson",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -509,9 +552,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Emma Bold",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -519,9 +563,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Ana Crown",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -529,9 +574,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Company Profile",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -539,9 +585,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Company Profile",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -549,9 +596,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Max Smith",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -559,9 +607,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Sean Bean",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -569,9 +618,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Brian Cox",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -579,9 +629,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Mikaela Collins",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -589,9 +640,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Francis Mitcham",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -599,9 +651,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Olivia Wild",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -609,9 +662,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Neil Owen",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -619,9 +673,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Dan Wilson",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -629,9 +684,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Emma Bold",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -639,9 +695,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Ana Crown",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -649,9 +706,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Company Profile",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -659,9 +717,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Company Profile",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -669,9 +728,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Max Smith",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -679,9 +739,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Sean Bean",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -689,9 +750,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Brian Cox",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -699,9 +761,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Mikaela Collins",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -709,9 +772,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Francis Mitcham",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -719,9 +783,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Olivia Wild",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -729,9 +794,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Neil Owen",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -739,9 +805,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Dan Wilson",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -749,9 +816,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Emma Bold",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -759,9 +827,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Ana Crown",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -769,9 +838,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Company Profile",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -779,9 +849,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Company Profile",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -789,9 +860,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Max Smith",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -799,9 +871,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Sean Bean",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -809,9 +882,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Brian Cox",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -819,9 +893,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Mikaela Collins",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -829,9 +904,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Francis Mitcham",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -839,9 +915,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Olivia Wild",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -849,9 +926,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Neil Owen",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -859,9 +937,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Dan Wilson",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -869,9 +948,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Emma Bold",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -879,9 +959,10 @@
         },
         {
           id: Math.floor(Math.random() * 99999) + 1,
-          name: "Ana Crown",
           couponCode: "ABC9090",
-          price: "RM10.00",
+          customer: "Customer Name Goes Here",
+          used:"Yes",
+          usage: "1/2",
           value: "RM5.00",
            startDate: "5 Apr 2023",
            endDate: "30 Apr 2023",
@@ -894,7 +975,7 @@
         MenuComponent.reinitialization();
         initCustomers.value.splice(0, customers.value.length, ...customers.value);
   
-        setCurrentPageBreadcrumbs("Coupon Management", ["Product Management"]);
+        setCurrentPageBreadcrumbs("Promotion Usage", ["Product Management"]);
       });
   
   

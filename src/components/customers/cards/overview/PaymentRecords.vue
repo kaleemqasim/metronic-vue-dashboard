@@ -1,358 +1,321 @@
 <template>
-  <!--begin::Card-->
-  <div :class="`card pt-4 ${cardClasses}`">
-    <!--begin::Card header-->
-    <div class="card-header border-0">
+  <div class="card">
+    <div class="card-header border-0 pt-6">
       <!--begin::Card title-->
       <div class="card-title">
-        <h2>Payment Records</h2>
+        <h5>User Listing</h5>
       </div>
-      <!--end::Card title-->
-
+      <!--begin::Card title-->
       <!--begin::Card toolbar-->
       <div class="card-toolbar">
-        <!--begin::Filter-->
-        <button
-          type="button"
-          class="btn btn-sm btn-flex btn-light-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#kt_modal_add_payment"
+        <!--begin::Toolbar-->
+        <el-form
+            @submit.prevent="submit()"
+            :model="formData"
+            :rules="rules"
+            ref="formRef"
+          >
+           
+            <!--begin::Input group-->
+            <div class="fv-row dateRange">
+              <!--begin::Input-->
+              <el-form-item prop="name">
+                <el-date-picker type="daterange" start-placeholder="Start Date"
+        end-placeholder="End Date" v-model="formData.dateRange">
+                </el-date-picker>
+              </el-form-item>
+              <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+          </el-form>
+        <div
+          v-if="checkedCustomers.length === 0"
+          class="d-flex justify-content-end"
+          data-kt-customer-table-toolbar="base"
         >
-          <span class="svg-icon svg-icon-3">
-            <inline-svg src="media/icons/duotune/general/gen035.svg" />
+        <div class="d-flex align-items-center position-relative my-1">
+          <span class="svg-icon svg-icon-1 position-absolute ms-6">
+            <inline-svg src="media/icons/duotune/general/gen021.svg" />
           </span>
-          Add payment
-        </button>
-        <!--end::Filter-->
+          <input
+            type="text"
+            v-model="search"
+            @input="searchItems()"
+            class="form-control form-control-solid w-125px ps-15"
+            placeholder="Search"
+          />
+        </div>
+        </div>
       </div>
       <!--end::Card toolbar-->
     </div>
-    <!--end::Card header-->
-
-    <!--begin::Card body-->
-    <div class="card-body pt-0 pb-5">
+    <div class="card-body pt-0">
       <Datatable
+        :table-data="customers"
         :table-header="tableHeader"
-        :table-data="tableData"
-        :rows-per-page="5"
+        :enable-items-per-page-dropdown="true"
       >
-        <template v-slot:cell-invoice="{ row: payment }">
-          {{ payment.invoice }}
+        
+        <template v-slot:cell-dateOfPurchase="{ row: customer }">
+          {{ customer.dateOfPurchase }}
         </template>
-        <template v-slot:cell-status="{ row: payment }">
-          <span :class="`badge badge-light-${payment.status.state}`">{{
-            payment.status.label
-          }}</span>
-        </template>
-        <template v-slot:cell-amount="{ row: payment }">
-          {{ payment.amount }}
-        </template>
-        <template v-slot:cell-date="{ row: payment }">
-          {{ payment.date }}
-        </template>
-        <template v-slot:cell-actions="{ row: payment }">
-          <a
-            href="#"
-            class="btn btn-sm btn-light btn-active-light-primary"
-            data-kt-menu-trigger="click"
-            data-kt-menu-placement="bottom-end"
-            data-kt-menu-flip="top-end"
-            >Actions
-            <span class="svg-icon svg-icon-5 m-0">
-              <inline-svg src="media/icons/duotune/arrows/arr072.svg" />
-            </span>
+        <template v-slot:cell-purchasedInfo="{ row: customer }">
+          <a href="#" class="text-gray-600 text-hover-primary mb-1">
+            {{ customer.purchasedInfo }}
           </a>
-          <!--begin::Menu-->
+        </template>
+        <template v-slot:cell-dateOfCreation="{ row: customer }">
+          {{ customer.dateOfCreation }}
+        </template>
+        <template v-slot:cell-invoice="{ row: customer }">
+          <span class="text-primary">{{ customer.invoice }}</span>
+        </template>
+        <template v-slot:cell-totalValue="{ row: customer }">
+          {{ customer.totalValue }}
+        </template>
+        <template v-slot:cell-remark="{ row: customer }">
+          {{ customer.remark }}
+        </template>
+        <template v-slot:cell-detail="{ row: customer }">
           <div
-            class="
-              menu
-              menu-sub
-              menu-sub-dropdown
-              menu-column
-              menu-rounded
-              menu-gray-600
-              menu-state-bg-light-primary
-              fw-bold
-              fs-7
-              w-125px
-              py-4
-            "
-            data-kt-menu="true"
-          >
-            <!--begin::Menu item-->
-            <div class="menu-item px-3">
-              <router-link
-                to="/apps/customers/customer-details"
-                class="menu-link px-3"
-                >View</router-link
-              >
-            </div>
-            <!--end::Menu item-->
-            <!--begin::Menu item-->
-            <div class="menu-item px-3">
-              <a @click="deleteRecord(payment.invoice)" class="menu-link px-3"
-                >Delete</a
-              >
-            </div>
-            <!--end::Menu item-->
+            class="btn btn-sm btn-light text-gray-600 btn-active-light-primary"
+            >{{customer.detail }}
           </div>
-          <!--end::Menu-->
+          
         </template>
       </Datatable>
     </div>
-    <!--end::Card body-->
   </div>
-  <!--end::Card-->
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, reactive, toRefs, ref,onMounted } from "vue";
 import Datatable from "@/components/kt-datatable/Datatable.vue";
+import { MenuComponent } from "@/assets/ts/components";
+import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+
+interface ICustomer {
+  id: number;
+  dateOfPurchase: string;
+  purchasedInfo: string;
+  dateOfCreation: string;
+  invoice: string;
+  totalValue: string;
+  remark: string;
+  detail:string;
+}
 
 export default defineComponent({
-  name: "payment-records",
-  props: {
-    cardClasses: String,
-  },
+  name: "user-management",
   components: {
     Datatable,
   },
   setup() {
+    const checkedCustomers = ref([]);
     const tableHeader = ref([
       {
-        name: "Invoice No.",
+        name: "Date of Purchased",
+        key: "dateOfPurchase",
+        sortable: true,
+      },
+      {
+        name: "Purchased Information",
+        key: "purchasedInfo",
+        sortable: true,
+      },
+      {
+        name: "Date of Creation",
+        key: "dateOfCreation",
+        sortable: true,
+      },
+      {
+        name: "Invoice",
         key: "invoice",
         sortable: true,
       },
       {
-        name: "Status",
-        key: "status",
-        sortingField: "status.label",
+        name: "Total Value (RM)",
+        key: "totalValue",
         sortable: true,
       },
       {
-        name: "Amount",
-        key: "amount",
+        name: "Remark",
+        key: "remark",
         sortable: true,
       },
       {
-        name: "Date",
-        key: "date",
-        sortable: true,
-      },
-      {
-        name: "Actions",
-        key: "actions",
-        sortable: false,
-      },
-    ]);
-    const tableData = ref([
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Payment for invoice",
-        amount: "$880.00",
-        status: {
-          label: "Pending",
-          state: "warning",
-        },
-        date: "21 Oct 2020, 5:54 pm",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Monthly utilites",
-        amount: "$7,650.00",
-        status: {
-          label: "Successful",
-          state: "success",
-        },
-        date: "19 Oct 2020, 7:32 am",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Payment for invoice",
-        amount: "$375.00",
-        status: {
-          label: "Successful",
-          state: "success",
-        },
-        date: "23 Sep 2020, 12:38 am",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Hosting Fees",
-        amount: "$129.00",
-        status: {
-          label: "Successful",
-          state: "success",
-        },
-        date: "11 Sep 2020, 3:18 pm",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Marketing automation",
-        amount: "$450.00",
-        status: {
-          label: "Rejected",
-          state: "danger",
-        },
-        date: "03 Sep 2020, 1:08 am",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Sales injection",
-        amount: "$8,700.00",
-        status: {
-          label: "Pending",
-          state: "warning",
-        },
-        date: "01 Sep 2020, 4:58 pm",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Payment for invoice",
-        amount: "$1,200.00",
-        status: {
-          label: "Successful",
-          state: "success",
-        },
-        date: "14 Dec 2020, 8:43 pm",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Google cloud subscription",
-        amount: "$79.00",
-        status: {
-          label: "Successful",
-          state: "success",
-        },
-        date: "01 Dec 2020, 10:12 am",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Capital investment",
-        amount: "$5,500.00",
-        status: {
-          label: "Successful",
-          state: "success",
-        },
-        date: "12 Nov 2020, 2:01 pm",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Payment for invoice",
-        amount: "$880.00",
-        status: {
-          label: "Pending",
-          state: "warning",
-        },
-        date: "21 Oct 2020, 5:54 pm",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Monthly utilites",
-        amount: "$7,650.00",
-        status: {
-          label: "Successful",
-          state: "success",
-        },
-        date: "19 Oct 2020, 7:32 am",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Payment for invoice",
-        amount: "$375.00",
-        status: {
-          label: "Successful",
-          state: "success",
-        },
-        date: "23 Sep 2020, 12:38 am",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Hosting Fees",
-        amount: "$129.00",
-        status: {
-          label: "Successful",
-          state: "success",
-        },
-        date: "11 Sep 2020, 3:18 pm",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Marketing automation",
-        amount: "$450.00",
-        status: {
-          label: "Rejected",
-          state: "danger",
-        },
-        date: "03 Sep 2020, 1:08 am",
-      },
-      {
-        invoice:
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000) +
-          "-" +
-          Math.floor(Math.random() * (9999 - 1000 + 1) + 1000),
-        description: "Sales injection",
-        amount: "$8,700.00",
-        status: {
-          label: "Pending",
-          state: "warning",
-        },
-        date: "01 Sep 2020, 4:58 pm",
+        name: "Download Invoice",
+        key: "detail",
       },
     ]);
 
-    const deleteRecord = (invoice) => {
-      for (let i = 0; i < tableData.value.length; i++) {
-        if (tableData.value[i].invoice === invoice) {
-          tableData.value.splice(i, 1);
+    const customers = ref<Array<ICustomer>>([
+      {
+        id: Math.floor(Math.random() * 99999) + 1,
+        dateOfPurchase: "17/10/2022 12:38:57",
+        purchasedInfo: "Attestation of Company Good Standing",
+        dateOfCreation: "1-Dec-2022",
+        invoice: "BDSB0006924947",
+        totalValue: "15.00",
+        remark:"FPX Payment",
+        detail:"view",
+      },
+      {
+        id: Math.floor(Math.random() * 99999) + 1,
+        dateOfPurchase: "17/10/2022 12:38:57",
+        purchasedInfo: "Attestation of Company Good Standing",
+        dateOfCreation: "1-Dec-2022",
+        invoice: "BDSB0006924947",
+        totalValue: "15.00",
+        remark:"FPX Payment",
+        detail:"view",
+      },
+      {
+        id: Math.floor(Math.random() * 99999) + 1,
+        dateOfPurchase: "17/10/2022 12:38:57",
+        purchasedInfo: "Attestation of Company Good Standing",
+        dateOfCreation: "1-Dec-2022",
+        invoice: "BDSB0006924947",
+        totalValue: "15.00",
+        remark:"FPX Payment",
+        detail:"view",
+      },
+    ]);
+    const initCustomers = ref<Array<ICustomer>>([]);
+
+    onMounted(() => {
+      MenuComponent.reinitialization();
+      initCustomers.value.splice(0, customers.value.length, ...customers.value);
+
+      setCurrentPageBreadcrumbs("User Management", []);
+    });
+
+
+    const search = ref<string>("");
+    const searchItems = () => {
+      customers.value.splice(0, customers.value.length, ...initCustomers.value);
+      if (search.value !== "") {
+        let results: Array<ICustomer> = [];
+        for (let j = 0; j < customers.value.length; j++) {
+          if (searchingFunc(customers.value[j], search.value)) {
+            results.push(customers.value[j]);
+          }
         }
+        customers.value.splice(0, customers.value.length, ...results);
       }
     };
 
-    return { tableHeader, tableData, deleteRecord };
+    const searchingFunc = (obj, value): boolean => {
+      for (let key in obj) {
+        if (!Number.isInteger(obj[key]) && !(typeof obj[key] === "object")) {
+          if (obj[key].indexOf(value) != -1) {
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+    const formRef = ref<null | HTMLFormElement>(null);
+    const loading = ref<boolean>(false);
+    const state = reactive({
+      shortcuts: [
+        {
+          text: "Last week",
+          value: () => {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            return [start, end];
+          },
+        },
+        {
+          text: "Last month",
+          value: () => {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            return [start, end];
+          },
+        },
+        {
+          text: "Last 3 months",
+          value: () => {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            return [start, end];
+          },
+        },
+      ],
+    });
+
+    const formData = ref({
+      dateRange: [],
+      paymentType: "",
+    });
+
+    const rules = ref({
+      dateRange: [
+        {
+          required: true,
+          message: "Date range is required",
+          trigger: "change",
+        },
+      ],
+    });
+
+    const submit = () => {
+      if (!formRef.value) {
+        return;
+      }
+
+      formRef.value.validate((valid) => {
+        if (valid) {
+          loading.value = true;
+
+          setTimeout(() => {
+            loading.value = false;
+
+            Swal.fire({
+              text: "Form has been successfully submitted!",
+              icon: "success",
+              buttonsStyling: false,
+              confirmButtonText: "Ok, got it!",
+              customClass: {
+                confirmButton: "btn btn-primary",
+              },
+            }).then(() => {
+              window.location.reload();
+            });
+          }, 2000);
+        } else {
+          Swal.fire({
+            text: "Sorry, looks like there are some errors detected, please try again.",
+            icon: "error",
+            buttonsStyling: false,
+            confirmButtonText: "Ok, got it!",
+            customClass: {
+              confirmButton: "btn btn-primary",
+            },
+          });
+          return false;
+        }
+      });
+    };
+    return {
+      customers,
+      tableHeader,
+      search,
+      searchItems,
+      checkedCustomers,
+      ...toRefs(state),
+      formData,
+      rules,
+      submit,
+      formRef,
+      loading,
+    };
   },
 });
 </script>
