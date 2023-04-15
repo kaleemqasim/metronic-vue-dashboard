@@ -74,6 +74,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/income-statement/SalesTransaction.vue"),
       },
       {
+        path: "/income-statement/SalesTransactionInvoice",
+        name: "sales-transaction-invoice",
+        component: () => import("@/views/income-statement/SalesTransactionInvoice.vue"),
+      },
+      {
         path: "/income-statement/PaymentReceipting",
         name: "payment-receipting",
         component: () => import("@/views/income-statement/PaymentReceipting.vue"),

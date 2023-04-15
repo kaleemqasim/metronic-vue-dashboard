@@ -1,6 +1,5 @@
 <template>
   <!--begin::Wrapper-->
-  <div class="bg-white rounded shadow-sm p-10 p-lg-15 mx-auto">
     <!--begin::Form-->
     <Form
       class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"
@@ -12,45 +11,14 @@
       <!--begin::Heading-->
       <div class="mb-10 text-center">
         <!--begin::Title-->
-        <h1 class="text-dark mb-3">Create an Account</h1>
+        <h1 class="text-dark mb-3">iNFODATA Registration forms</h1>
         <!--end::Title-->
-
-        <!--begin::Link-->
-        <div class="text-gray-400 fw-bold fs-4">
-          Already have an account?
-
-          <router-link to="/sign-in" class="link-primary fw-bolder">
-            Sign in here
-          </router-link>
-        </div>
-        <!--end::Link-->
-      </div>
-      <!--end::Heading-->
-
-      <!--begin::Action-->
-      <button type="button" class="btn btn-light-primary fw-bolder w-100 mb-10">
-        <img
-          alt="Logo"
-          src="media/svg/brand-logos/google-icon.svg"
-          class="h-20px me-3"
-        />
-        Sign in with Google
-      </button>
-      <!--end::Action-->
-
-      <!--begin::Separator-->
-      <div class="d-flex align-items-center mb-10">
-        <div class="border-bottom border-gray-300 mw-50 w-100"></div>
-        <span class="fw-bold text-gray-400 fs-7 mx-2">OR</span>
-        <div class="border-bottom border-gray-300 mw-50 w-100"></div>
-      </div>
-      <!--end::Separator-->
-
+</div>
       <!--begin::Input group-->
       <div class="row fv-row mb-7">
         <!--begin::Col-->
-        <div class="col-xl-6">
-          <label class="form-label fw-bolder text-dark fs-6">First Name</label>
+        <div class="col-xl-12">
+          <label class="form-label fw-bolder text-dark fs-6">Name</label>
           <Field
             class="form-control form-control-lg form-control-solid"
             type="text"
@@ -66,23 +34,6 @@
         </div>
         <!--end::Col-->
 
-        <!--begin::Col-->
-        <div class="col-xl-6">
-          <label class="form-label fw-bolder text-dark fs-6">Last Name</label>
-          <Field
-            class="form-control form-control-lg form-control-solid"
-            type="text"
-            placeholder=""
-            name="surname"
-            autocomplete="off"
-          />
-          <div class="fv-plugins-message-container">
-            <div class="fv-help-block">
-              <ErrorMessage name="surname" />
-            </div>
-          </div>
-        </div>
-        <!--end::Col-->
       </div>
       <!--end::Input group-->
 
@@ -99,6 +50,24 @@
         <div class="fv-plugins-message-container">
           <div class="fv-help-block">
             <ErrorMessage name="email" />
+          </div>
+        </div>
+      </div>
+      <!--end::Input group-->
+
+            <!--begin::Input group-->
+            <div class="fv-row mb-7">
+        <label class="form-label fw-bolder text-dark fs-6">Telephone</label>
+        <Field
+          class="form-control form-control-lg form-control-solid"
+          type="number"
+          placeholder=""
+          name="telephone"
+          autocomplete="off"
+        />
+        <div class="fv-plugins-message-container">
+          <div class="fv-help-block">
+            <ErrorMessage name="telephone" />
           </div>
         </div>
       </div>
@@ -153,32 +122,15 @@
       </div>
       <!--end::Input group-->
 
-      <!--begin::Input group-->
-      <div class="fv-row mb-10">
-        <label class="form-check form-check-custom form-check-solid">
-          <Field
-            class="form-check-input"
-            type="checkbox"
-            name="toc"
-            value="1"
-          />
-          <span class="form-check-label fw-bold text-gray-700 fs-6">
-            I Agree &
-            <a href="#" class="ms-1 link-primary">Terms and conditions</a>.
-          </span>
-        </label>
-      </div>
-      <!--end::Input group-->
-
       <!--begin::Actions-->
       <div class="text-center">
         <button
           id="kt_sign_up_submit"
           ref="submitButton"
           type="submit"
-          class="btn btn-lg btn-primary"
+          class="btn btn-lg btn-primary w-50"
         >
-          <span class="indicator-label"> Submit </span>
+          <span class="indicator-label"> SignUp </span>
           <span class="indicator-progress">
             Please wait...
             <span
@@ -190,7 +142,6 @@
       <!--end::Actions-->
     </Form>
     <!--end::Form-->
-  </div>
   <!--end::Wrapper-->
 </template>
 
@@ -220,6 +171,7 @@ export default defineComponent({
       name: Yup.string().required().label("First Name"),
       surname: Yup.string().required().label("Second Name"),
       email: Yup.string().min(4).required().email().label("Email"),
+      telephone: Yup.string().min(4).required().label("Telephone"),
       password: Yup.string().min(4).required().label("Password"),
       cpassword: Yup.string()
         .min(4)

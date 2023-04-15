@@ -68,23 +68,205 @@
     </div>
     <div class="row homeCards">
       <div class="col-xl-8 mt-8">
-    <Widget1></Widget1>
+    <Widget2></Widget2>
         </div>
         <div class="col-xl-4 mt-8"> 
-          <div class="recent_alerts">
-            <div class="d-flex align-center justify-content-between">
-              <h5>Recent Alerts</h5>
-              <img src="/media/home/recent_alerts.svg" alt="alerts"/>
+          <div class="select_compare">
+            <div class="d-flex align-center justify-content-between mb-5">
+              <h5>Select</h5>
+              <button class="btn btn-light">Comapre</button>
             </div>
+            <div class="d-flex align-items-center position-relative my-5">
+          <span class="svg-icon svg-icon-1 position-absolute ms-6">
+            <inline-svg src="media/icons/duotune/general/gen021.svg" />
+          </span>
+          <input
+            type="text"
+            class="form-control form-control-solid ps-15"
+            placeholder="Search"
+          />
+        </div>
             <div class="inner_content">
-              <h6>Product Purchase Issue</h6>
-              <p>User with email username@gmail.com report to have an error with product purchased.</p>
-              <ul>
-                <li>Product: Director Shareholder</li>
-                <li>Date: 10 April 2023</li>
-                <li>Time: 11:55 AM</li>
-                <li>Reference: RCIBD00110042023A</li>
-              </ul>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
+
+          <label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label><label class="
+              form-check form-check-custom form-check-solid
+              align-items-start
+            ">
+            <input class="form-check-input me-3" type="checkbox" name="email-preferences1" value="1">
+            <span class="form-check-label d-flex flex-column align-items-start">
+              <span class="fw-bolder fs-5 mb-0">Shareholder Listing and Analysis</span>
+            </span>
+          </label>
             </div>
           </div>
         </div>
@@ -94,14 +276,14 @@
   
   <script lang="ts">
   import { defineComponent, onMounted } from "vue";
-  import Widget1 from "@/views/_parts/Widget1.vue"
+  import Widget2 from "@/views/_parts/Widget2.vue"
   import { MenuComponent } from "@/assets/ts/components";
   import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
   
   export default defineComponent({
     name: "product",
     components: {
-      Widget1,
+      Widget2,
     },
     setup() {
 

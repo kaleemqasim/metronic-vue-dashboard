@@ -5,7 +5,7 @@
               class="btn btn-sm btn-success"
               >
               <router-link
-                  to="/product-management/CouponCreation"
+                  to=""
                   class="menu-link px-3 text-gray-100"
                   >
                   Download Report

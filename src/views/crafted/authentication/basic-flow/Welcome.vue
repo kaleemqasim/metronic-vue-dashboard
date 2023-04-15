@@ -10,29 +10,15 @@
       <!--begin::Heading-->
       <div class="text-center mb-10">
         <!--begin::Title-->
-        <h1 class="text-dark mb-3">Infodata <br/>
-Company and Business Information Data Intelligence Platform</h1>
+        <h1 class="text-dark mb-3">iNFODATA Welcome</h1>
         <!--end::Title-->
 
         <!--begin::Link-->
         <div class="text-gray-400 fw-bold fs-4">
-          New Here?
-
-          <router-link to="/sign-up" class="link-primary fw-bolder">
-            Create an Account
-          </router-link>
+          Congratulations, your account already activated. You may login now to proceed
         </div>
         <!--end::Link-->
       </div>
-      <!--begin::Heading-->
-
-      <div class="mb-10 bg-light-info p-8 rounded">
-        <div class="text-info">
-          Use account <strong>admin@demo.com</strong> and password
-          <strong>demo</strong> to continue.
-        </div>
-      </div>
-
       <!--begin::Input group-->
       <div class="fv-row mb-10">
         <!--begin::Label-->
@@ -93,7 +79,7 @@ Company and Business Information Data Intelligence Platform</h1>
       <div class="text-center">
         <!--begin::Submit button-->
         <div class="row">
-          <div class="col-lg-4">
+          <div class="col-lg-12">
             <button
               type="submit"
               ref="submitButton"
@@ -109,19 +95,6 @@ Company and Business Information Data Intelligence Platform</h1>
                 ></span>
               </span>
             </button>
-          </div>
-          <div class="col-lg-8">
-            <a
-              href="#"
-              class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5"
-            >
-              <img
-                alt="Logo"
-                src="media/svg/brand-logos/google-icon.svg"
-                class="h-20px me-3"
-              />
-              Sign in with Google
-            </a>
           </div>
         </div>
 

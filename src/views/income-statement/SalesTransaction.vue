@@ -5,7 +5,7 @@
               class="btn btn-sm btn-success"
               >
               <router-link
-                  to="/product-management/CouponCreation"
+                  to=""
                   class="menu-link px-3 text-gray-100"
                   >
                   Download Report
@@ -107,7 +107,9 @@
             <span class="text-info"> {{ customer.date }}</span>
           </template>
           <template v-slot:cell-refrence="{ row: customer }">
-            <span class="text-primary"> {{ customer.refrence }}</span>
+            <router-link
+                  to="/income-statement/SalesTransactionInvoice"
+                  ><span class="text-primary"> {{ customer.refrence }}</span></router-link>
           </template>
           <template v-slot:cell-status="{ row: customer }">
             <span class="badge badge-light-success"> {{ customer.status }}</span>
