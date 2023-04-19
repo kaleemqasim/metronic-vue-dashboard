@@ -70,22 +70,22 @@
                 </table>
                 <!--end::Table-->
               </div>
-              <div class="row justify-content-end">
-                <div class="col-md-6">
+              <div class="row justify-content-end mt-20">
+                <div class="col-md-4">
                   <div class="d-flex align-items-center justify-content-between">
-                    <p class="detail">Subtotal (RM):</p>
+                    <p class="text-muted">Subtotal (RM):</p>
                     <p class="info">15.00</p>
                   </div>
                   <div class="d-flex align-items-center justify-content-between">
-                    <p class="detail">Tax 6%</p>
+                    <p class="text-muted">Tax 6%</p>
                     <p class="info">0.90</p>
                   </div>
                   <div class="d-flex align-items-center justify-content-between">
-                    <p class="detail">Subtotal + VAT</p>
+                    <p class="text-muted">Subtotal + VAT</p>
                     <p class="info">15.00</p>
                   </div>
                   <div class="d-flex align-items-center justify-content-between">
-                    <p class="detail">Total (RM)</p>
+                    <p class="text-muted">Total (RM)</p>
                     <p class="info">15.90</p>
                   </div>
                 </div>
