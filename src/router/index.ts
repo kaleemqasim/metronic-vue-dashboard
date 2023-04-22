@@ -7,6 +7,10 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     redirect: "/dashboard",
     component: () => import("@/layout/Layout.vue"),
+    beforeEnter: (to, from, next) => {
+      localStorage.setItem('user_type', 'admin');
+      next();
+    },
     children: [
       {
         path: "/dashboard",
@@ -105,6 +109,111 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
+
+
+  {
+    path: '/user',
+    name: 'User',
+    component: () => import('@/layout/Layout.vue'),
+    beforeEnter: (to, from, next) => {
+      localStorage.setItem('user_type', 'user');
+      next();
+    },
+    children: [
+      {
+        path: "dashboard",
+        name: "user-dashboard",
+        component: () => import("@/views/UserDashboard.vue"),
+      },
+      {
+        path: "information-search/EntitySearch",
+        name: "entity-search",
+        component: () => import("@/views/information-search/EntitySearch.vue"),
+      },
+      {
+        path: "information-search/EntitiesFound",
+        name: "entity-found",
+        component: () => import("@/views/information-search/EntitiesFound.vue"),
+      },
+      {
+        path: "information-search/EntitiesListing",
+        name: "entity-listing",
+        component: () => import("@/views/information-search/_part/EntitiesListing.vue"),
+      },
+      {
+        path: "information-search/PersonalInvolvementListing",
+        name: "personal-involvement-listing",
+        component: () => import("@/views/information-search/_part/PersonalInvolvementListing.vue"),
+      },
+      {
+        path: "information-search/LinkRelationshipListing",
+        name: "link-relationship-listing",
+        component: () => import("@/views/information-search/_part/LinkRelationshipListing.vue"),
+      },
+      {
+        path: "information-search/MyCart",
+        name: "my-cart",
+        component: () => import("@/views/information-search/_part/MyCart.vue"),
+      },
+      {
+        path: "information-search/CartPayment",
+        name: "cart-payment",
+        component: () => import("@/views/information-search/_part/CartPayment.vue"),
+      },
+      {
+        path: "information-search/PersonalInvolvement",
+        name: "personal-involvement",
+        component: () => import("@/views/information-search/PersonalInvolvement.vue"),
+      },
+      {
+        path: "information-search/LinkRelationship",
+        name: "link-relationship",
+        component: () => import("@/views/information-search/LinkRelationship.vue"),
+      },
+      {
+        path: "my-order",
+        name: "my-order",
+        component: () => import("@/views/MyOrder.vue"),
+      },
+      {
+        path: "my-statement",
+        name: "my-statement",
+        component: () => import("@/views/MyStatement.vue"),
+      },
+      {
+        path: "my-statement-invoice",
+        name: "my-statement-invoice",
+        component: () => import("@/views/MyStatementInvoice.vue"),
+      },
+      {
+        path: "my-account",
+        name: "my-account",
+        component: () => import("@/views/MyAccount.vue"),
+      },
+      {
+        path: "profile",
+        name: "profile",
+        component: () => import("@/views/Profile.vue"),
+      },
+      {
+        path: "industry-analysiis",
+        name: "industry-analysiis",
+        component: () => import("@/views/IndustryAnalysiis.vue"),
+      },
+    ]
+  },
+
+
+
+
+
+
+
+
+
+
+
+
   {
     path: "/",
     redirect: "/dashboard",
@@ -313,6 +422,8 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+
+  
   {
     path: "/",
     component: () => import("@/components/page-layouts/Auth.vue"),

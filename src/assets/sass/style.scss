@@ -25,6 +25,34 @@ $mode: default;
     width: 1.75rem !important;
     border-radius: 4px;
 }
+.min-h-0px{
+    min-height: 0 !important;
+}
+.date .el-input--suffix .el-input__inner{
+    padding-right: 30px;
+}
+.date .el-date-editor.el-input {
+    width: 135px;
+}
+.date .el-input--suffix .el-input__inner {
+    padding-left: 15px;
+    background: rgba(124, 145, 253, 0.1);
+    border: 0;
+}
+.date .el-input__prefix {
+    left: auto;
+    right: 3px;
+}
+.accountChart{
+    background: radial-gradient(50% 38.76% at 50% 31.25%, #21E1D8 0%, #1BC5BD 100%);
+}
+.btn-accountChart{
+    color: #1BC5BD;
+    background: #C9F7F5;
+}
+.entityDropdown{
+    width: 200px;
+}
 .aside-enabled.aside-fixed.toolbar-fixed .toolbar {
     padding: 35px 0;
 }
