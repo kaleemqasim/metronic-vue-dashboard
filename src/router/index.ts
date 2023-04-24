@@ -136,27 +136,27 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/information-search/EntitiesFound.vue"),
       },
       {
-        path: "information-search/EntitiesListing",
+        path: "/information-search/EntitiesListing",
         name: "entity-listing",
         component: () => import("@/views/information-search/_part/EntitiesListing.vue"),
       },
       {
-        path: "information-search/PersonalInvolvementListing",
+        path: "/information-search/PersonalInvolvementListing",
         name: "personal-involvement-listing",
         component: () => import("@/views/information-search/_part/PersonalInvolvementListing.vue"),
       },
       {
-        path: "information-search/LinkRelationshipListing",
+        path: "/information-search/LinkRelationshipListing",
         name: "link-relationship-listing",
         component: () => import("@/views/information-search/_part/LinkRelationshipListing.vue"),
       },
       {
-        path: "information-search/MyCart",
+        path: "/information-search/MyCart",
         name: "my-cart",
         component: () => import("@/views/information-search/_part/MyCart.vue"),
       },
       {
-        path: "information-search/CartPayment",
+        path: "/information-search/CartPayment",
         name: "cart-payment",
         component: () => import("@/views/information-search/_part/CartPayment.vue"),
       },
@@ -191,8 +191,8 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/MyAccount.vue"),
       },
       {
-        path: "profile",
-        name: "profile",
+        path: "my-profile",
+        name: "my-profile",
         component: () => import("@/views/Profile.vue"),
       },
       {

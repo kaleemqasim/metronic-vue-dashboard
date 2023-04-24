@@ -461,6 +461,16 @@ const DocMenuConfigUser = [
       }
     ],
   },
+  {
+    pages: [
+      {
+        heading: "My Profile",
+        route: "/user/my-profile",
+        svgIcon: "media/icons/duotune/general/gen025.svg",
+        fontIcon: "bi-app-indicator",
+      }
+    ],
+  },
   // {
   //   pages: [
   //     {

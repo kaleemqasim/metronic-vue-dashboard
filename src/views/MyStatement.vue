@@ -16,7 +16,7 @@
       <div class="card-header border-0 pt-6">
         <!--begin::Card title-->
         <div class="card-title">
-          <h5>My Order</h5>
+          <h5>My Statement</h5>
         </div>
         <!--begin::Card title-->
         <!--begin::Card toolbar-->
@@ -77,7 +77,7 @@
             <div
               class="btn btn-sm btn-light text-gray-600 btn-active-light-primary"
               ><router-link
-                  to="/my-statement-invoice"
+                  to=""
                   class="menu-link px-3 text-gray-600"
                   >{{customer.download }}</router-link
                 >
@@ -114,7 +114,7 @@
 }
   
   export default defineComponent({
-    name: "my-order",
+    name: "my-statement",
     components: {
       Datatable,
     },
@@ -179,7 +179,7 @@
         MenuComponent.reinitialization();
         initCustomers.value.splice(0, customers.value.length, ...customers.value);
   
-        setCurrentPageBreadcrumbs("My Order", []);
+        setCurrentPageBreadcrumbs("My Statement", []);
       });
   
       const targetData = ref<NewAddressData>({

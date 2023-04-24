@@ -322,7 +322,7 @@ export default defineComponent({
         const borderColor = getCSSVariableValue("--bs-gray-200");
         onMounted(() => {
             MenuComponent.reinitialization();
-            setCurrentPageBreadcrumbs("My Account", []);
+            setCurrentPageBreadcrumbs("My Profile", []);
         });
         const chartOptions = {
             chart: {
