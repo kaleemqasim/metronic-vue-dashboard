@@ -151,6 +151,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/information-search/_part/LinkRelationshipListing.vue"),
       },
       {
+        path: "/information-search/LinkRealtionshipAnalysis",
+        name: "link-relationship-analysis",
+        component: () => import("@/views/information-search/_part/LinkRealtionshipAnalysis.vue"),
+      },
+      {
         path: "/information-search/MyCart",
         name: "my-cart",
         component: () => import("@/views/information-search/_part/MyCart.vue"),

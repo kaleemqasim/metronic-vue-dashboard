@@ -18,91 +18,84 @@
         <p class="mt-2 fs-6 text-muted">Acquiring this information will require to get this person involvement against other entity registration, you will require to pay for 2 times in order for the system to provide with an accurate information. These are the list oif information to be validate against the searched person:</p>
         <div class="row mt-3">
           <div class="col-md-3">
-            <router-link to="/information-search/MyCart">
+            <router-link to="/information-search/LinkRealtionshipAnalysis">
     <div class="card mt-5 border border-dashed border-gray-300
             rounded">
       <div class="card-body text-center py-9 px-6">
         <h3
-          href="#"
-          class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
+                   class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
           >Personal Involvement as a Director</h3>
         </div>
       </div>
     </router-link>
           </div>
           <div class="col-md-3">
-            <router-link to="/information-search/MyCart">
+            <router-link to="/information-search/LinkRealtionshipAnalysis">
     <div class="card mt-5 border border-dashed border-gray-300
             rounded">
       <div class="card-body text-center py-9 px-6">
         <h3
-          href="#"
-          class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
+                   class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
           >Personal Involvement as a Shareholder</h3>
         </div>
       </div>
     </router-link>
           </div>
           <div class="col-md-3">
-            <router-link to="/information-search/MyCart">
+            <router-link to="/information-search/LinkRealtionshipAnalysis">
     <div class="card mt-5 border border-dashed border-gray-300
             rounded">
       <div class="card-body text-center py-9 px-6">
         <h3
-          href="#"
-          class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
+                   class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
           >Personal Involvement as a Company Secretary</h3>
         </div>
       </div>
     </router-link>
           </div>
           <div class="col-md-3">
-            <router-link to="/information-search/MyCart">
+            <router-link to="/information-search/LinkRealtionshipAnalysis">
     <div class="card mt-5 border border-dashed border-gray-300
             rounded">
       <div class="card-body text-center py-9 px-6">
         <h3
-          href="#"
-          class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
+                   class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
           >Personal Involvement as a Auditor</h3>
         </div>
       </div>
     </router-link>
           </div>
           <div class="col-md-3">
-            <router-link to="/information-search/MyCart">
+            <router-link to="/information-search/LinkRealtionshipAnalysis">
     <div class="card mt-5 border border-dashed border-gray-300
             rounded">
       <div class="card-body text-center py-9 px-6">
         <h3
-          href="#"
-          class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
+                   class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
           >Personal Involvement as a Liquidator</h3>
         </div>
       </div>
     </router-link>
           </div>
           <div class="col-md-3">
-            <router-link to="/information-search/MyCart">
+            <router-link to="/information-search/LinkRealtionshipAnalysis">
     <div class="card mt-5 border border-dashed border-gray-300
             rounded">
       <div class="card-body text-center py-9 px-6">
         <h3
-          href="#"
-          class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
+                   class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
           >Personal Involvement as a Business Ownership</h3>
         </div>
       </div>
     </router-link>
           </div>
           <div class="col-md-3">
-            <router-link to="/information-search/MyCart">
+            <router-link to="/information-search/LinkRealtionshipAnalysis">
     <div class="card mt-5 border border-dashed border-gray-300
             rounded">
       <div class="card-body text-center py-9 px-6">
         <h3
-          href="#"
-          class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
+                   class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0"
           >Personal Involvement as a Partnership and Compliance Officer</h3>
         </div>
       </div>

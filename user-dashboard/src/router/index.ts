@@ -59,6 +59,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/information-search/LinkRelationship.vue"),
       },
       {
+        path: "/information-search/LinkRealtionshipAnalysis",
+        name: "link-relationship-analysis",
+        component: () => import("@/views/information-search/_part/LinkRealtionshipAnalysis.vue"),
+      },
+      {
         path: "/my-order",
         name: "my-order",
         component: () => import("@/views/MyOrder.vue"),

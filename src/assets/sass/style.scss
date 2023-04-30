@@ -371,3 +371,90 @@ $mode: default;
     }
 
 }
+.containers{
+    overflow-x: scroll;
+}
+.containers ul {
+    display: flex;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0);
+    transition: 300ms visibility, 300ms transform, 300ms opacity;
+    list-style: none;
+}
+.containers ul li {
+    flex: 1;
+    text-align: center;
+    padding: 0 10px;
+    position: relative;
+}
+.containers ul:first-child {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+.containers ul li input {
+    display: none;
+}
+.containers ul li::before {
+    content: '';
+    position: absolute;
+    top: -1em;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #000;
+}
+.containers ul li:first-child::before {
+    left: 50%;
+}
+.containers ul li:last-child::before {
+    right: 50%;
+}
+.containers ul li label {
+    display: inline-grid;
+    background-color: #fff;
+    padding: 5px 20px;
+    border: 2px solid #E4E6EF;
+    border-radius: 5px;
+    margin-bottom: 2em;
+    position: relative;
+    white-space: nowrap;
+    box-sizing: border-box;
+    user-select: none;
+    cursor: pointer;
+}
+.containers ul li label::after,
+.containers ul li label::before {
+    content: '';
+    width: 2px;
+    position: absolute;
+    top: calc(-1em - 2px);
+    height: 1em;
+    left: 50%;
+    transition: 300ms all;
+    background: #000;
+}
+.containers ul li label::after {
+    top: auto;
+    bottom: calc(-1em - 2px);
+    height: 0;
+}
+.containers ul li label:last-child::after {
+    display: none;
+}
+.containers >ul >li >label::before {
+    display: none;
+}
+.containers ul li input:checked + label {
+    color: black;
+}
+.containers ul li input:checked + label::after {
+    height: 1em;
+}
+.containers ul li input:checked + label + ul {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    list-style: none;
+}
