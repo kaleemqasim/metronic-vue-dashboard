@@ -90,7 +90,7 @@
         <div class="card">
           <div class="d-flex">
             <div class="flex-shrink-0">
-              <img src="/media/avatars/150-1.jpg" alt="shop">
+              <img src="media/logos/shoppings.svg" alt="shop">
             </div>
             <div class="flex-grow-1 ms-3">
               <h5>QUICK GUIDE </h5>
@@ -110,7 +110,7 @@ amazing shopping</p>
         <div class="card">
           <div class="d-flex">
             <div class="flex-shrink-0">
-              <img src="/media/avatars/150-1.jpg" alt="shop">
+              <img src="media/logos/shoppings.svg" alt="shop">
             </div>
             <div class="flex-grow-1 ms-3">
               <h5>QUICK GUIDE </h5>
@@ -130,7 +130,7 @@ amazing shopping</p>
         <div class="card">
           <div class="d-flex">
             <div class="flex-shrink-0">
-              <img src="/media/avatars/150-1.jpg" alt="shop">
+              <img src="media/logos/shoppings.svg" alt="shop">
             </div>
             <div class="flex-grow-1 ms-3">
               <h5>QUICK GUIDE </h5>
