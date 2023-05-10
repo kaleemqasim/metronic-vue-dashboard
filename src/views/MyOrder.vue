@@ -73,8 +73,9 @@
           <template v-slot:cell-download="{ row: customer }">
             <div
               class="btn btn-sm btn-light text-gray-600 btn-active-light-primary"
-              ><router-link
-                  to=""
+              >
+              <router-link
+                  to="/information-search/LinkRealtionshipAnalysis"
                   class="menu-link px-3 text-gray-600"
                   >{{customer.download }}</router-link
                 >

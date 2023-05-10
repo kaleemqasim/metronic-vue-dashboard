@@ -23,10 +23,6 @@ const DocMenuConfig = [
             route: "/information-search/EntitySearch",
           },
           {
-            heading: "Entity Found",
-            route: "/information-search/EntitiesFound",
-          },
-          {
             heading: "Personnel Involvement",
             route: "/information-search/PersonalInvolvement",
           },
@@ -68,16 +64,7 @@ const DocMenuConfig = [
       }
     ],
   },
-  {
-    pages: [
-      {
-        heading: "My Profile",
-        route: "/my-profile",
-        svgIcon: "media/icons/duotune/general/gen025.svg",
-        fontIcon: "bi-app-indicator",
-      }
-    ],
-  },
+
   // {
   //   pages: [
   //     {

@@ -5,6 +5,7 @@
         <div class="col-md-7 mx-auto">
           <p class="text-muted text-center">Please enter the required information by using <br /> the search form provided
             below</p>
+            <router-link to="/information-search/PersonalInvolvementListing">
           <div class="d-flex">
             <input type="text" class="form-control form-control-solid w-100 text-center"
               placeholder="Please enter personnel MYKAD" />
@@ -19,11 +20,11 @@
               </select>
             </div>
           </div>
+          </router-link>
         </div>
       </div>
       <div class="row homeCards mt-20">
         <div class="col-xl-4">
-         <router-link to="/information-search/PersonalInvolvementListing">
           <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
             style="background-position: right top; background-size: 30% auto; background-image: url('media/svg/shapes/abstract-4.svg'); box-shadow: 2px 2px 6px 0px #a9a9a96e;">
             <!--begin::Body-->
@@ -38,10 +39,8 @@
             </div>
             <!--end::Body-->
           </div>
-         </router-link>
         </div>
         <div class="col-xl-4">
-         <router-link to="/information-search/PersonalInvolvementListing">
           <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
             style="background-position: right top; background-size: 30% auto; background-image: url('media/svg/shapes/abstract-2.svg'); box-shadow: 2px 2px 6px 0px #a9a9a96e;">
             <!--begin::Body-->
@@ -56,10 +55,8 @@
             </div>
             <!--end::Body-->
           </div>
-         </router-link>
         </div>
         <div class="col-xl-4">
-         <router-link to="/information-search/PersonalInvolvementListing">
           <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
             style="background-position: right top; background-size: 30% auto; background-image: url('media/svg/shapes/abstract-1.svg'); box-shadow: 2px 2px 6px 0px #a9a9a96e;">
             <!--begin::Body-->
@@ -74,7 +71,6 @@
             </div>
             <!--end::Body-->
           </div>
-         </router-link>
         </div>
       </div>
     </div>

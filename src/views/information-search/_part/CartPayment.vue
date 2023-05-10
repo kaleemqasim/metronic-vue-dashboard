@@ -19,16 +19,15 @@
               border-transparent
             " role="tablist">
             <li class="nav-item" role="presentation">
-              <a id="kt_referrals_year_tab" class="nav-link text-active-primary active" data-bs-toggle="tab" role="tab"
+              <a id="kt_referrals_2019_tab" class="nav-link text-active-primary ms-3 active" data-bs-toggle="tab" role="tab"
                 href="#kt_customer_details_invoices_1">
-                Credit / Depit Card
+                FPX
               </a>
             </li>
-
             <li class="nav-item" role="presentation">
-              <a id="kt_referrals_2019_tab" class="nav-link text-active-primary ms-3" data-bs-toggle="tab" role="tab"
+              <a id="kt_referrals_year_tab" class="nav-link text-active-primary " data-bs-toggle="tab" role="tab"
                 href="#kt_customer_details_invoices_2">
-                Paypal
+                Credit Card
               </a>
             </li>
           </ul>
@@ -37,6 +36,21 @@
       <div class="card-body p-0 mt-5">
         <div id="kt_referred_users_tab_content" class="tab-content">
           <div id="kt_customer_details_invoices_1" class="py-0 pt-5 tab-pane fade active show" role="tabpanel">
+            <div class="py-0" data-kt-customer-payment-method="row">
+              <!--begin::Header-->
+              <label class="mb-2 fw-bold">Select Bank</label>
+              <input type="text" class="form-control form-control-solid w-25" />
+              <div class="p-5 d-flex justify-content-end">
+                <!--begin::Toggle-->
+                <div class="d-flex my-3 ms-9">
+                  <router-link to="/user/my-order">
+                    <button class="btn btn-sm btn-primary">Pay Now</button>
+                  </router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="kt_customer_details_invoices_2" class="py-0 pt-5 tab-pane fade" role="tabpanel">
             <div class="py-0" data-kt-customer-payment-method="row">
               <!--begin::Header-->
               <div class="p-5 d-flex flex-stack flex-wrap border-dashed rounded mb-4">
@@ -82,74 +96,17 @@
                   <button class="btn btn-sm btn-light">Edit</button>
                 </div>
               </div>
-              <div class="p-5 d-flex flex-stack flex-wrap mb-4">
+              <div class="p-5 d-flex justify-content-end">
                 <!--begin::Toggle-->
-                  <div class="me-3">
-                    <div class="d-flex flex-wrap">
-                      <div class="text-gray-800 fw-bolder">You have 2 active cards. </div>
-                    <div class="text-muted">Another 3 are inactive</div>
-                    </div>
-                    <div class="text-muted">
-                      Extended Pro Package. Up to 100 Agents & 25 Projects. Make your business effective
-                    </div>
-                  </div>
                 <div class="d-flex my-3 ms-9">
-                  <button class="btn btn-sm btn-light me-2">Action</button>
-                  <button class="btn btn-sm btn-primary">Add New Card</button>
-                </div>
-              </div>
-              <div class="card-title border-bottom pb-3 mt-10">
-                <h2>Billing Addresses</h2>
-              </div>
-              <div class="p-5 d-flex flex-stack flex-wrap border-dashed rounded mb-4 mt-10">
-                <!--begin::Toggle-->
-                <div class="">
-                  <div class="d-flex align-items-center mb-3">
-                    <div class="text-gray-800 fw-bolder fs-3">Address 1</div>
-                    <div class="badge badge-light-success ms-5">Primary</div>
-                  </div>
-                  <div class="text-muted">Ap #285-7193 Ullamcorper Avenue <br/>
-                    Amesbury HI 93373 <br/>
-                    United States <br/>
-                  </div>
-                </div>
-                <div class="d-flex my-3 ms-9">
-                  <button class="btn btn-sm btn-light-100 text-muted me-2">Delete</button>
-                  <button class="btn btn-sm btn-light">Edit</button>
-                </div>
-              </div>
-              <div class="p-5 d-flex flex-stack flex-wrap border-dashed rounded mb-4">
-                <!--begin::Toggle-->
-                <div class="">
-                  <div class="d-flex align-items-center mb-3">
-                    <div class="text-gray-800 fw-bolder fs-3">Address 2</div>
-                  </div>
-                  <div class="text-muted">Ap #285-7193 Ullamcorper Avenue <br/>
-                    Amesbury HI 93373 <br/>
-                    United States <br/>
-                  </div>
-                </div>
-                <div class="d-flex my-3 ms-9">
-                  <button class="btn btn-sm btn-light-100 text-muted me-2">Delete</button>
-                  <button class="btn btn-sm btn-light">Edit</button>
-                </div>
-              </div>
-              <div class="p-5 d-flex flex-stack flex-wrap mb-4">
-                <!--begin::Toggle-->
-                  <div class="me-3">
-                    <div class="text-gray-800 fw-bolder">Tax Location</div>
-                    <div class="text-muted">
-                      United States - 10% VAT  <a href="" class="text-primary">More Info</a>
-                    </div>
-                  </div>
-                <div class="d-flex my-3 ms-9">
-                  <button class="btn btn-sm btn-light me-2">Action</button>
-                  <button class="btn btn-sm btn-primary">Add New Card</button>
+                  <router-link to="/user/my-order">
+                    <button class="btn btn-sm btn-primary">Pay Now</button>
+                  </router-link>
                 </div>
               </div>
             </div>
           </div>
-          
+
         </div>
       </div>
     </div>

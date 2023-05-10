@@ -34,7 +34,9 @@
                 {{ customer.number }}
           </template>
           <template v-slot:cell-name="{ row: customer }">
-            <span class="text-primary">{{ customer.name }}</span>
+            <router-link to="/information-search/EntitiesListing">
+              <span class="text-primary">{{ customer.name }}</span>
+            </router-link>
         </template>
           <template v-slot:cell-type="{ row: customer }">
            {{ customer.type }}

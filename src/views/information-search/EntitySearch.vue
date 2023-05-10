@@ -5,6 +5,7 @@
         <div class="col-md-9 mx-auto">
           <p class="text-muted text-center">Please enter the required information by using <br /> the search form provided
             below</p>
+            <router-link to="/user/information-search/EntitiesFound">
           <div class="d-flex">
             <input type="text" class="form-control form-control-solid w-100 text-center"
               placeholder="Please enter Company, Business or Audit Firm info to search." />
@@ -19,11 +20,11 @@
               </select>
             </div>
           </div>
+        </router-link>
         </div>
       </div>
       <div class="row homeCards mt-20">
         <div class="col-xl-4">
-         <router-link to="/information-search/EntitiesListing">
           <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
             style="background-position: right top; background-size: 30% auto; background-image: url('media/svg/shapes/abstract-4.svg'); box-shadow: 2px 2px 6px 0px #a9a9a96e;">
             <!--begin::Body-->
@@ -38,10 +39,8 @@
             </div>
             <!--end::Body-->
           </div>
-         </router-link>
         </div>
         <div class="col-xl-4">
-         <router-link to="/information-search/EntitiesListing">
           <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
             style="background-position: right top; background-size: 30% auto; background-image: url('media/svg/shapes/abstract-2.svg'); box-shadow: 2px 2px 6px 0px #a9a9a96e;">
             <!--begin::Body-->
@@ -56,10 +55,8 @@
             </div>
             <!--end::Body-->
           </div>
-         </router-link>
         </div>
         <div class="col-xl-4">
-         <router-link to="/information-search/EntitiesListing">
           <div class="card bgi-no-repeat card-xl-stretch mb-xl-8"
             style="background-position: right top; background-size: 30% auto; background-image: url('media/svg/shapes/abstract-1.svg'); box-shadow: 2px 2px 6px 0px #a9a9a96e;">
             <!--begin::Body-->
@@ -74,9 +71,99 @@
             </div>
             <!--end::Body-->
           </div>
-         </router-link>
         </div>
       </div>
+      <div
+  id="kt_carousel_1_carousel"
+  class="carousel carousel-custom slide"
+  data-bs-ride="carousel"
+  data-bs-interval="8000"
+>
+
+
+<div class="entityCarousel">
+  <!--begin::Carousel-->
+  <div class="carousel-inner pt-8">
+    <!--begin::Item-->
+    <div class="carousel-item active">
+      <div class="caroselCard">
+        <div class="card">
+          <div class="d-flex">
+            <div class="flex-shrink-0">
+              <img src="/media/avatars/150-1.jpg" alt="shop">
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <h5>QUICK GUIDE </h5>
+              <p>Best tool ever create for <br>
+amazing shopping</p>
+<button class="bnt btn-yellow">VIEW GUIDE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Item-->
+
+    <!--begin::Item-->
+    <div class="carousel-item">
+       <div class="caroselCard">
+        <div class="card">
+          <div class="d-flex">
+            <div class="flex-shrink-0">
+              <img src="/media/avatars/150-1.jpg" alt="shop">
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <h5>QUICK GUIDE </h5>
+              <p>Best tool ever create for <br>
+amazing shopping</p>
+<button class="bnt btn-yellow">VIEW GUIDE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Item-->
+
+    <!--begin::Item-->
+    <div class="carousel-item">
+       <div class="caroselCard">
+        <div class="card">
+          <div class="d-flex">
+            <div class="flex-shrink-0">
+              <img src="/media/avatars/150-1.jpg" alt="shop">
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <h5>QUICK GUIDE </h5>
+              <p>Best tool ever create for <br>
+amazing shopping</p>
+<button class="bnt btn-yellow">VIEW GUIDE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Item-->
+  </div>
+  <ol class="p-0 m-0 carousel-indicators carousel-indicators-dots">
+      <li
+        data-bs-target="#kt_carousel_1_carousel"
+        data-bs-slide-to="0"
+        class="ms-1 active"
+      ></li>
+      <li
+        data-bs-target="#kt_carousel_1_carousel"
+        data-bs-slide-to="1"
+        class="ms-1"
+      ></li>
+      <li
+        data-bs-target="#kt_carousel_1_carousel"
+        data-bs-slide-to="2"
+        class="ms-1"
+      ></li>
+    </ol>
+  <!--end::Carousel-->
+</div>
+</div>
     </div>
   </div>
 </template>

@@ -5,7 +5,7 @@
               class="btn btn-sm btn-success"
               >
               <router-link
-                  to=""
+                  to="/information-search/MyCart"
                   class="menu-link px-3 text-gray-100"
                   >
                   Checkout
@@ -39,12 +39,10 @@
             <div class="fw-bold text-gray-400">With CTC</div>
           </div>
         </div>
-        <router-link to="/information-search/MyCart">
           <p class="btn btn-sm btn-primary">
           <img src="/media/logos/cart.svg" alt="cart">
           Add to Cart
         </p>
-        </router-link>
       </div>
     </div>
           </div>
@@ -72,12 +70,10 @@
             <div class="fw-bold text-gray-400">With CTC</div>
           </div>
         </div>
-        <router-link to="/information-search/MyCart">
           <p class="btn btn-sm btn-primary">
           <img src="/media/logos/cart.svg" alt="cart">
           Add to Cart
         </p>
-        </router-link>
       </div>
     </div>
           </div>
@@ -105,12 +101,10 @@
             <div class="fw-bold text-gray-400">With CTC</div>
           </div>
         </div>
-        <router-link to="/information-search/MyCart">
           <p class="btn btn-sm btn-primary">
           <img src="/media/logos/cart.svg" alt="cart">
           Add to Cart
         </p>
-        </router-link>
       </div>
     </div>
           </div>
@@ -138,12 +132,10 @@
             <div class="fw-bold text-gray-400">With CTC</div>
           </div>
         </div>
-        <router-link to="/information-search/MyCart">
           <p class="btn btn-sm btn-primary">
           <img src="/media/logos/cart.svg" alt="cart">
           Add to Cart
         </p>
-        </router-link>
       </div>
     </div>
           </div>
@@ -171,12 +163,10 @@
             <div class="fw-bold text-gray-400">With CTC</div>
           </div>
         </div>
-        <router-link to="/information-search/MyCart">
           <p class="btn btn-sm btn-primary">
           <img src="/media/logos/cart.svg" alt="cart">
           Add to Cart
         </p>
-        </router-link>
       </div>
     </div>
           </div>
@@ -204,12 +194,10 @@
             <div class="fw-bold text-gray-400">With CTC</div>
           </div>
         </div>
-        <router-link to="/information-search/MyCart">
           <p class="btn btn-sm btn-primary">
           <img src="/media/logos/cart.svg" alt="cart">
           Add to Cart
         </p>
-        </router-link>
       </div>
     </div>
           </div>
@@ -237,12 +225,10 @@
             <div class="fw-bold text-gray-400">With CTC</div>
           </div>
         </div>
-        <router-link to="/information-search/MyCart">
           <p class="btn btn-sm btn-primary">
           <img src="/media/logos/cart.svg" alt="cart">
           Add to Cart
         </p>
-        </router-link>
       </div>
     </div>
           </div>
@@ -270,12 +256,10 @@
             <div class="fw-bold text-gray-400">With CTC</div>
           </div>
         </div>
-        <router-link to="/information-search/MyCart">
           <p class="btn btn-sm btn-primary">
           <img src="/media/logos/cart.svg" alt="cart">
           Add to Cart
         </p>
-        </router-link>
       </div>
     </div>
           </div>
@@ -303,12 +287,10 @@
             <div class="fw-bold text-gray-400">With CTC</div>
           </div>
         </div>
-        <router-link to="/information-search/MyCart">
           <p class="btn btn-sm btn-primary">
           <img src="/media/logos/cart.svg" alt="cart">
           Add to Cart
         </p>
-        </router-link>
       </div>
     </div>
           </div>

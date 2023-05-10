@@ -416,10 +416,6 @@ const DocMenuConfigUser = [
             route: "/user/information-search/EntitySearch",
           },
           {
-            heading: "Entity Found",
-            route: "/user/information-search/EntitiesFound",
-          },
-          {
             heading: "Personnel Involvement",
             route: "/user/information-search/PersonalInvolvement",
           },
@@ -456,16 +452,6 @@ const DocMenuConfigUser = [
       {
         heading: "My Account",
         route: "/user/my-account",
-        svgIcon: "media/icons/duotune/general/gen025.svg",
-        fontIcon: "bi-app-indicator",
-      }
-    ],
-  },
-  {
-    pages: [
-      {
-        heading: "My Profile",
-        route: "/user/my-profile",
         svgIcon: "media/icons/duotune/general/gen025.svg",
         fontIcon: "bi-app-indicator",
       }

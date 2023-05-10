@@ -458,3 +458,33 @@ $mode: default;
     transform: scale(1);
     list-style: none;
 }
+.entityCarousel{
+    .caroselCard{
+       .card{
+        background: #D5D83D;
+        border-radius: 12px;
+        padding: 20px;
+        img{
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+        h5{
+            letter-spacing: 0.02em;
+            color: #3F4254;
+        }
+        p{
+            color: #3F4254;
+        }
+        .btn-yellow{
+            background: #EBEE51;
+            border-radius: 6px;
+            color: #5E6278;
+            outline: 0;
+            border: 0;
+            padding: 8px;
+            font-weight: bold;
+        }
+       }
+    }   
+}
