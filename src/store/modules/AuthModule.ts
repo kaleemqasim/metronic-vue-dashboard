@@ -1,11 +1,11 @@
 import ApiService from "@/core/services/ApiService";
 import JwtService from "@/core/services/JwtService";
 import { Actions, Mutations } from "@/store/enums/StoreEnums";
+import { useRouter } from "vue-router";
 import { Module, Action, Mutation, VuexModule } from "vuex-module-decorators";
 
 export interface User {
   name: string;
-  surname: string;
   email: string;
   password: string;
   token: string;
@@ -54,10 +54,12 @@ export default class AuthModule extends VuexModule implements UserAuthInfo {
 
   @Mutation
   [Mutations.SET_AUTH](user) {
+    console.log("user", user);
+
     this.isAuthenticated = true;
-    this.user = user;
+    this.user = user.data.user;
     this.errors = [];
-    JwtService.saveToken(this.user.token);
+    JwtService.saveToken(user.data.token);
   }
 
   @Mutation
@@ -76,18 +78,42 @@ export default class AuthModule extends VuexModule implements UserAuthInfo {
     this.user = {} as User;
     this.errors = [];
     JwtService.destroyToken();
+    window.localStorage.removeItem("user_type");
   }
 
   @Action
   [Actions.LOGIN](credentials) {
     return new Promise<void>((resolve, reject) => {
-      ApiService.post("login", credentials)
+      ApiService.post(`${process.env.VUE_APP_API_URL}/v1/login`, credentials)
         .then(({ data }) => {
           this.context.commit(Mutations.SET_AUTH, data);
           resolve();
         })
         .catch(({ response }) => {
-          this.context.commit(Mutations.SET_ERROR, response.data.errors);
+          if (response.status === 401) {
+            this.context.commit(Mutations.SET_ERROR, [response.data.message]);
+            reject();
+          }
+          this.context.commit(Mutations.SET_ERROR, response.data.message);
+          reject();
+        });
+    });
+  }
+
+  @Action
+  [Actions.ADMIN_LOGIN](credentials) {
+    return new Promise<void>((resolve, reject) => {
+      ApiService.post(`${process.env.VUE_APP_API_URL}/v1/login`, credentials)
+        .then(({ data }) => {
+          this.context.commit(Mutations.SET_AUTH, data);
+          resolve();
+        })
+        .catch(({ response }) => {
+          if (response.status === 401) {
+            this.context.commit(Mutations.SET_ERROR, [response.data.message]);
+            reject();
+          }
+          this.context.commit(Mutations.SET_ERROR, response.data.message);
           reject();
         });
     });
@@ -101,13 +127,22 @@ export default class AuthModule extends VuexModule implements UserAuthInfo {
   @Action
   [Actions.REGISTER](credentials) {
     return new Promise<void>((resolve, reject) => {
-      ApiService.post("registration", credentials)
+      ApiService.post(`${process.env.VUE_APP_API_URL}/v1/register`, credentials)
         .then(({ data }) => {
-          this.context.commit(Mutations.SET_AUTH, data);
+          this.context.commit(Mutations.SET_AUTH, data.data);
           resolve();
         })
         .catch(({ response }) => {
-          this.context.commit(Mutations.SET_ERROR, response.data.errors);
+          if (response && response.data && response.data.errors) {
+            const errorFields = response.data.errors;
+            const errors = {};
+            for (const field in errorFields) {
+              errors[field] = errorFields[field][0];
+            }
+            this.context.commit(Mutations.SET_ERROR, errors);
+          } else {
+            this.context.commit(Mutations.SET_ERROR, {});
+          }
           reject();
         });
     });
@@ -116,14 +151,24 @@ export default class AuthModule extends VuexModule implements UserAuthInfo {
   @Action
   [Actions.FORGOT_PASSWORD](payload) {
     return new Promise<void>((resolve, reject) => {
-      ApiService.post("forgot_password", payload)
+      ApiService.post(
+        `${process.env.VUE_APP_API_URL}/v1/forgot-password`,
+        payload
+      )
         .then(({ data }) => {
-          this.context.commit(Mutations.SET_AUTH, data);
           resolve();
         })
         .catch(({ response }) => {
-          console.log(response.data.errors);
-          this.context.commit(Mutations.SET_ERROR, response.data.errors);
+          if (response && response.data && response.data.errors) {
+            const errorFields = response.data.errors;
+            const errors = {};
+            for (const field in errorFields) {
+              errors[field] = errorFields[field][0];
+            }
+            this.context.commit(Mutations.SET_ERROR, errors);
+          } else {
+            this.context.commit(Mutations.SET_ERROR, {});
+          }
           reject();
         });
     });

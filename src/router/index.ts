@@ -1,20 +1,24 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import store from "@/store";
-import { Mutations, Actions } from "@/store/enums/StoreEnums";
+import { Mutations } from "@/store/enums/StoreEnums";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    redirect: "/dashboard",
+    redirect: "/sign-in",
     component: () => import("@/layout/Layout.vue"),
     beforeEnter: (to, from, next) => {
-      localStorage.setItem('user_type', 'admin');
-      next();
+      if (localStorage.getItem("user_type") === "admin") {
+        localStorage.setItem("user_type", "admin");
+        next();
+      } else {
+        return next("/user/dashboard");
+      }
     },
     children: [
       {
-        path: "/dashboard",
-        name: "dashboard",
+        path: "/admin/dashboard",
+        name: "admin-dashboard",
         component: () => import("@/views/Dashboard.vue"),
       },
       {
@@ -28,69 +32,99 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/user-management/UserManagement.vue"),
       },
       {
-        path: "/user-management/user-management-details",
+        path: "/user-management/user-management-details/:id",
         name: "customers-details",
-        component: () => import("@/views/user-management/UserManagementDetails.vue"),
+        component: () =>
+          import("@/views/user-management/UserManagementDetails.vue"),
+      },
+      {
+        path: "my-profile",
+        name: "admin-my-profile",
+        component: () => import("@/views/Profile.vue"),
       },
       {
         path: "/product-management/ProductListing",
         name: "product-listing",
-        component: () => import("@/views/product-management/ProductListing.vue"),
+        component: () =>
+          import("@/views/product-management/ProductListing.vue"),
       },
       {
         path: "/product-management/AddProductListing",
         name: "add-product-listing",
-        component: () => import("@/views/product-management/_part/AddProductListing.vue"),
+        component: () =>
+          import("@/views/product-management/_part/AddProductListing.vue"),
+      },
+      {
+        path: "/product-management/EditProductListing/:id",
+        name: "edit-product-listing",
+        component: () =>
+          import("@/views/product-management/_part/EditProductListing.vue"),
       },
       {
         path: "/product-management/PromotionManagement",
         name: "promotion-management",
-        component: () => import("@/views/product-management/PromotionManagement.vue"),
+        component: () =>
+          import("@/views/product-management/PromotionManagement.vue"),
       },
       {
         path: "/product-management/AddPromotionManagement",
         name: "add-promotion-management",
-        component: () => import("@/views/product-management/_part/AddPromotionManagement.vue"),
+        component: () =>
+          import("@/views/product-management/_part/AddPromotionManagement.vue"),
       },
       {
         path: "/product-management/PromotionUsage",
         name: "promotion-usage",
-        component: () => import("@/views/product-management/_part/PromotionUsage.vue"),
+        component: () =>
+          import("@/views/product-management/_part/PromotionUsage.vue"),
       },
       {
         path: "/product-management/CouponManagement",
         name: "coupon-management",
-        component: () => import("@/views/product-management/CouponManagement.vue"),
+        component: () =>
+          import("@/views/product-management/CouponManagement.vue"),
       },
       {
         path: "/product-management/AddCouponManagement",
         name: "add-coupon-management",
-        component: () => import("@/views/product-management/_part/AddCouponManagement.vue"),
+        component: () =>
+          import("@/views/product-management/_part/AddCouponManagement.vue"),
+      },
+      {
+        path: "/product-management/EditCouponManagement/:id",
+        name: "edit-coupon-management",
+        component: () =>
+          import("@/views/product-management/_part/EditCouponManagement.vue"),
       },
       {
         path: "/product-management/CouponCreation",
         name: "coupon-creation",
-        component: () => import("@/views/product-management/_part/CouponCreation.vue"),
+        component: () =>
+          import("@/views/product-management/_part/CouponCreation.vue"),
       },
       {
         path: "/income-statement/SalesTransaction",
         name: "sales-transaction",
-        component: () => import("@/views/income-statement/SalesTransaction.vue"),
+        component: () =>
+          import("@/views/income-statement/SalesTransaction.vue"),
       },
       {
         path: "/income-statement/SalesTransactionInvoice",
         name: "sales-transaction-invoice",
-        component: () => import("@/views/income-statement/SalesTransactionInvoice.vue"),
+        component: () =>
+          import("@/views/income-statement/SalesTransactionInvoice.vue"),
       },
       {
         path: "/income-statement/PaymentReceipting",
         name: "payment-receipting",
-        component: () => import("@/views/income-statement/PaymentReceipting.vue"),
+        component: () =>
+          import("@/views/income-statement/PaymentReceipting.vue"),
       },
       {
         path: "/product-analytics/ProductAnalytics",
         name: "product-analytics",
-        component: () => import("@/views/product-analytics/ProductAnalytics.vue"),
+        component: () =>
+          import("@/views/product-analytics/ProductAnalytics.vue"),
       },
       {
         path: "/product-analytics/ProductReport",
@@ -100,23 +134,27 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/customer-analytics/CustomerAnalytics",
         name: "customer-analytics",
-        component: () => import("@/views/customer-analytics/CustomerAnalytics.vue"),
+        component: () =>
+          import("@/views/customer-analytics/CustomerAnalytics.vue"),
       },
       {
         path: "/customer-analytics/CustomerReport",
         name: "customer-report",
-        component: () => import("@/views/customer-analytics/CustomerReport.vue"),
+        component: () =>
+          import("@/views/customer-analytics/CustomerReport.vue"),
       },
-    ]
+    ],
   },
 
-
   {
-    path: '/user',
-    name: 'User',
-    component: () => import('@/layout/Layout.vue'),
+    path: "/user",
+    name: "User",
+    component: () => import("@/layout/Layout.vue"),
     beforeEnter: (to, from, next) => {
-      localStorage.setItem('user_type', 'user');
+      // if (localStorage.getItem("user_type") !== "user") {
+      //   return next("/admin/dashboard");
+      // }
+      localStorage.setItem("user_type", "user");
       next();
     },
     children: [
@@ -138,22 +176,32 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/information-search/EntitiesListing",
         name: "entity-listing",
-        component: () => import("@/views/information-search/_part/EntitiesListing.vue"),
+        component: () =>
+          import("@/views/information-search/_part/EntitiesListing.vue"),
       },
       {
         path: "/information-search/PersonalInvolvementListing",
         name: "personal-involvement-listing",
-        component: () => import("@/views/information-search/_part/PersonalInvolvementListing.vue"),
+        component: () =>
+          import(
+            "@/views/information-search/_part/PersonalInvolvementListing.vue"
+          ),
       },
       {
         path: "/information-search/LinkRelationshipListing",
         name: "link-relationship-listing",
-        component: () => import("@/views/information-search/_part/LinkRelationshipListing.vue"),
+        component: () =>
+          import(
+            "@/views/information-search/_part/LinkRelationshipListing.vue"
+          ),
       },
       {
         path: "/information-search/LinkRealtionshipAnalysis",
         name: "link-relationship-analysis",
-        component: () => import("@/views/information-search/_part/LinkRealtionshipAnalysis.vue"),
+        component: () =>
+          import(
+            "@/views/information-search/_part/LinkRealtionshipAnalysis.vue"
+          ),
       },
       {
         path: "/information-search/MyCart",
@@ -163,17 +211,20 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/information-search/CartPayment",
         name: "cart-payment",
-        component: () => import("@/views/information-search/_part/CartPayment.vue"),
+        component: () =>
+          import("@/views/information-search/_part/CartPayment.vue"),
       },
       {
         path: "information-search/PersonalInvolvement",
         name: "personal-involvement",
-        component: () => import("@/views/information-search/PersonalInvolvement.vue"),
+        component: () =>
+          import("@/views/information-search/PersonalInvolvement.vue"),
       },
       {
         path: "information-search/LinkRelationship",
         name: "link-relationship",
-        component: () => import("@/views/information-search/LinkRelationship.vue"),
+        component: () =>
+          import("@/views/information-search/LinkRelationship.vue"),
       },
       {
         path: "my-order",
@@ -205,19 +256,8 @@ const routes: Array<RouteRecordRaw> = [
         name: "industry-analysiis",
         component: () => import("@/views/IndustryAnalysiis.vue"),
       },
-    ]
+    ],
   },
-
-
-
-
-
-
-
-
-
-
-
 
   {
     path: "/",
@@ -428,16 +468,28 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
 
-  
   {
     path: "/",
     component: () => import("@/components/page-layouts/Auth.vue"),
+    beforeEnter: (to, from, next) => {
+      if (!store.state.AuthModule.isAuthenticated) {
+        next();
+      } else {
+        next("/dashboard");
+      }
+    },
     children: [
       {
         path: "/sign-in",
         name: "sign-in",
         component: () =>
           import("@/views/crafted/authentication/basic-flow/SignIn.vue"),
+      },
+      {
+        path: "admin/sign-in",
+        name: "admin-sign-in",
+        component: () =>
+          import("@/views/crafted/authentication/basic-flow/AdminSignIn.vue"),
       },
       {
         path: "/sign-up",
@@ -479,7 +531,7 @@ router.beforeEach(() => {
   // reset config to initial state
   store.commit(Mutations.RESET_LAYOUT_CONFIG);
 
-  store.dispatch(Actions.VERIFY_AUTH);
+  // store.dispatch(Actions.VERIFY_AUTH);
 
   // Scroll page to top on every route change
   setTimeout(() => {

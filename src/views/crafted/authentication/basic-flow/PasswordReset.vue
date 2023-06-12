@@ -31,10 +31,14 @@
           placeholder=""
           name="email"
           autocomplete="off"
+          @input="clearError('email')"
         />
         <div class="fv-plugins-message-container">
           <div class="fv-help-block">
             <ErrorMessage name="email" />
+          </div>
+          <div class="fv-help-block" v-if="errors.email">
+            <span class="fv-help-block__text"> {{ errors.email }} </span>
           </div>
         </div>
       </div>
@@ -71,13 +75,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import * as Yup from "yup";
-import { Actions } from "@/store/enums/StoreEnums";
+import { Actions, Mutations } from "@/store/enums/StoreEnums";
 import Swal from "sweetalert2/dist/sweetalert2.min.js";
+import { Mutation } from "vuex-module-decorators";
 
 export default defineComponent({
   name: "password-reset",
@@ -96,7 +101,12 @@ export default defineComponent({
     const forgotPassword = Yup.object().shape({
       email: Yup.string().email().required().label("Email"),
     });
-
+    const errors = computed(() => {
+      return store.getters.getErrors;
+    });
+    const clearError = (fieldName) => {
+      store.commit(Mutations.SET_ERROR, { [fieldName]: "" });
+    };
     //Form submit function
     const onSubmitForgotPassword = (values) => {
       // Activate loading indicator
@@ -123,15 +133,15 @@ export default defineComponent({
           })
           .catch(() => {
             // Alert then login failed
-            Swal.fire({
-              text: store.getters.getErrors[0],
-              icon: "error",
-              buttonsStyling: false,
-              confirmButtonText: "Try again!",
-              customClass: {
-                confirmButton: "btn fw-bold btn-light-danger",
-              },
-            });
+            // Swal.fire({
+            //   text: store.getters.getErrors[0],
+            //   icon: "error",
+            //   buttonsStyling: false,
+            //   confirmButtonText: "Try again!",
+            //   customClass: {
+            //     confirmButton: "btn fw-bold btn-light-danger",
+            //   },
+            // });
           });
 
         submitButton.value?.removeAttribute("data-kt-indicator");
@@ -142,6 +152,8 @@ export default defineComponent({
       onSubmitForgotPassword,
       forgotPassword,
       submitButton,
+      errors,
+      clearError,
     };
   },
 });

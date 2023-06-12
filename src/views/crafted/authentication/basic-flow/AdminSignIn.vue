@@ -15,25 +15,8 @@
         Company and Business Information Data Intelligence Platform
       </h1>
       <!--end::Title-->
-
-      <!--begin::Link-->
-      <div class="text-gray-400 fw-bold fs-4">
-        New Here?
-
-        <router-link to="/sign-up" class="link-primary fw-bolder">
-          Create an Account
-        </router-link>
-      </div>
-      <!--end::Link-->
     </div>
     <!--begin::Heading-->
-
-    <div class="mb-10 bg-light-info p-8 rounded">
-      <div class="text-info">
-        Use account <strong>admin@demo.com</strong> and password
-        <strong>demo</strong> to continue.
-      </div>
-    </div>
 
     <!--begin::Input group-->
     <div class="fv-row mb-10">
@@ -64,12 +47,6 @@
         <!--begin::Label-->
         <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
         <!--end::Label-->
-
-        <!--begin::Link-->
-        <router-link to="/password-reset" class="link-primary fs-6 fw-bolder">
-          Forgot Password ?
-        </router-link>
-        <!--end::Link-->
       </div>
       <!--end::Wrapper-->
 
@@ -173,10 +150,10 @@ export default defineComponent({
       setTimeout(() => {
         // Send login request
         store
-          .dispatch(Actions.LOGIN, values)
+          .dispatch(Actions.ADMIN_LOGIN, values)
           .then(() => {
             Swal.fire({
-              text: "All is cool! Now you submit this form",
+              text: "All is cool! Now you can access dashboard",
               icon: "success",
               buttonsStyling: false,
               confirmButtonText: "Ok, got it!",
@@ -186,12 +163,8 @@ export default defineComponent({
             }).then(function () {
               // Go to page after successfully login
               let userRole = store.getters.currentUser.role;
-              if (userRole == Roles.MEMBER) {
-                localStorage.setItem("user_type", "user");
-                router.push({ name: "user-dashboard" });
-              } else {
+              if (userRole == Roles.ADMIN || userRole == Roles.SUPER_ADMIN) {
                 localStorage.setItem("user_type", "admin");
-
                 router.push({ name: "admin-dashboard" });
               }
             });

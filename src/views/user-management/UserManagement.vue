@@ -10,25 +10,31 @@
       <div class="card-toolbar">
         <!--begin::Toolbar-->
         <el-form
-            @submit.prevent="submit()"
-            :model="formData"
-            :rules="rules"
-            ref="formRef"
-          >
-           
-            <!--begin::Input group-->
-           <div class="d-flex align-center">
+          @submit.prevent="submit()"
+          :model="formData"
+          :rules="rules"
+          ref="formRef"
+        >
+          <!--begin::Input group-->
+          <div class="d-flex align-center">
             <div class="fv-row pe-3 w-125px">
               <!--begin::Input-->
-                <el-select v-model="formData.exportFormat" placeholder="Last Week">
-                  <el-option label="Zone one" value="shanghai" />
-                  <el-option label="Zone two" value="beijing" />
-                </el-select>
+              <el-select
+                v-model="formData.exportFormat"
+                placeholder="Last Week"
+              >
+                <el-option label="Zone one" value="shanghai" />
+                <el-option label="Zone two" value="beijing" />
+              </el-select>
               <!--end::Input-->
             </div>
             <div class="fv-row pe-3 w-125px">
               <!--begin::Input-->
-              <el-select  v-model="formData.exportFormat1" class="d-block" placeholder="All Orders">
+              <el-select
+                v-model="formData.exportFormat1"
+                class="d-block"
+                placeholder="All Orders"
+              >
                 <el-option value="excel" key="excel" label="Excel" />
                 <el-option value="pdf" key="pdf" label="PDF" />
                 <el-option value="cvs" key="cvs" label="CVS" />
@@ -36,37 +42,37 @@
               </el-select>
               <!--end::Input-->
             </div>
-           </div>
-            <!--end::Input group-->
-          </el-form>
+          </div>
+          <!--end::Input group-->
+        </el-form>
         <div
           v-if="checkedCustomers.length === 0"
           class="d-flex justify-content-end"
           data-kt-customer-table-toolbar="base"
         >
-        <div class="d-flex align-items-center position-relative my-1">
-          <span class="svg-icon svg-icon-1 position-absolute ms-6">
-            <inline-svg src="media/icons/duotune/general/gen021.svg" />
-          </span>
-          <input
-            type="text"
-            v-model="search"
-            @input="searchItems()"
-            class="form-control form-control-solid w-125px ps-15"
-            placeholder="Search"
-          />
-        </div>
+          <div class="d-flex align-items-center position-relative my-1">
+            <span class="svg-icon svg-icon-1 position-absolute ms-6">
+              <inline-svg src="media/icons/duotune/general/gen021.svg" />
+            </span>
+            <input
+              type="text"
+              v-model="search"
+              @input="searchItems()"
+              class="form-control form-control-solid w-125px ps-15"
+              placeholder="Search"
+            />
+          </div>
         </div>
       </div>
       <!--end::Card toolbar-->
     </div>
     <div class="card-body pt-0">
       <Datatable
+        v-if="customers.length > 0"
         :table-data="customers"
         :table-header="tableHeader"
         :enable-items-per-page-dropdown="true"
       >
-        
         <template v-slot:cell-name="{ row: customer }">
           {{ customer.name }}
         </template>
@@ -75,25 +81,25 @@
             {{ customer.email }}
           </a>
         </template>
-        <template v-slot:cell-dateOfCreation="{ row: customer }">
-          {{ customer.dateOfCreation }}
+        <template v-slot:cell-updatedAt="{ row: customer }">
+          {{ customer.createdAt.human }}
         </template>
-        <template v-slot:cell-lastLogin="{ row: customer }">
-          {{ customer.lastLogin }}
+        <template v-slot:cell-phone="{ row: customer }">
+          {{ customer.phone }}
         </template>
-        <template v-slot:cell-totalValue="{ row: customer }">
-          <span class="text-success">{{ customer.totalValue }}</span>
+        <template v-slot:cell-role="{ row: customer }">
+          <span class="text-success">{{ customer.role }}</span>
         </template>
         <template v-slot:cell-detail="{ row: customer }">
           <div
             class="btn btn-sm btn-light text-gray-600 btn-active-light-primary"
-            ><router-link
-                to="/user-management/user-management-details"
-                class="menu-link px-3 text-gray-600"
-                >{{customer.detail }}</router-link
-              >
+          >
+            <router-link
+              :to="`/user-management/user-management-details/${customer.id}`"
+              class="menu-link px-3 text-gray-600"
+              >{{ customer.detail }}</router-link
+            >
           </div>
-          
         </template>
       </Datatable>
     </div>
@@ -101,20 +107,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, ref,onMounted } from "vue";
+import { defineComponent, reactive, toRefs, ref, onMounted } from "vue";
 import Datatable from "@/components/kt-datatable/Datatable.vue";
 import { MenuComponent } from "@/assets/ts/components";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-
+import ApiService from "@/core/services/ApiService";
 interface ICustomer {
   id: number;
   name: string;
   email: string;
-  dateOfCreation: string;
-  lastLogin: string;
-  totalValue: string;
-  detail:string;
+  date: Array<string>;
+  phone: string;
+  role: string;
+  detail: string;
 }
 
 export default defineComponent({
@@ -136,18 +142,18 @@ export default defineComponent({
         sortable: true,
       },
       {
-        name: "Date of Creation",
-        key: "dateOfCreation",
+        name: "Date",
+        key: "updatedAt",
         sortable: true,
       },
       {
-        name: "Last Login",
-        key: "lastLogin",
+        name: "Phone",
+        key: "phone",
         sortable: true,
       },
       {
-        name: "Total Value (RM)",
-        key: "totalValue",
+        name: "Role",
+        key: "role",
         sortable: true,
       },
       {
@@ -156,665 +162,42 @@ export default defineComponent({
       },
     ]);
 
-    const customers = ref<Array<ICustomer>>([
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Emma Smith",
-        email: "e.smith@kpmg.com.au",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Melody Macy",
-        email: "melody@altbox.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Max Smith",
-        email: "max@kt.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Sean Bean",
-        email: "sean@dellito.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Brian Cox",
-        email: "brian@exchange.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Mikaela Collins",
-        email: "mikaela@pexcom.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Francis Mitcham",
-        email: "f.mitcham@kpmg.com.au",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Olivia Wild",
-        email: "olivia@corpmail.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Neil Owen",
-        email: "owen.neil@gmail.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Dan Wilson",
-        email: "dam@consilting.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Emma Bold",
-        email: "emma@intenso.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Ana Crown",
-        email: "ana.cf@limtel.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Emma Smith",
-        email: "e.smith@kpmg.com.au",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Melody Macy",
-        email: "melody@altbox.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Max Smith",
-        email: "max@kt.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Sean Bean",
-        email: "sean@dellito.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Brian Cox",
-        email: "brian@exchange.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Mikaela Collins",
-        email: "mikaela@pexcom.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Francis Mitcham",
-        email: "f.mitcham@kpmg.com.au",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Olivia Wild",
-        email: "olivia@corpmail.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Neil Owen",
-        email: "owen.neil@gmail.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Dan Wilson",
-        email: "dam@consilting.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Emma Bold",
-        email: "emma@intenso.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Ana Crown",
-        email: "ana.cf@limtel.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Emma Smith",
-        email: "e.smith@kpmg.com.au",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Melody Macy",
-        email: "melody@altbox.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Max Smith",
-        email: "max@kt.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Sean Bean",
-        email: "sean@dellito.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Brian Cox",
-        email: "brian@exchange.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Mikaela Collins",
-        email: "mikaela@pexcom.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Francis Mitcham",
-        email: "f.mitcham@kpmg.com.au",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Olivia Wild",
-        email: "olivia@corpmail.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Neil Owen",
-        email: "owen.neil@gmail.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Dan Wilson",
-        email: "dam@consilting.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Emma Bold",
-        email: "emma@intenso.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Ana Crown",
-        email: "ana.cf@limtel.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Emma Smith",
-        email: "e.smith@kpmg.com.au",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Melody Macy",
-        email: "melody@altbox.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Max Smith",
-        email: "max@kt.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Sean Bean",
-        email: "sean@dellito.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Brian Cox",
-        email: "brian@exchange.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Mikaela Collins",
-        email: "mikaela@pexcom.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Francis Mitcham",
-        email: "f.mitcham@kpmg.com.au",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Olivia Wild",
-        email: "olivia@corpmail.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Neil Owen",
-        email: "owen.neil@gmail.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Dan Wilson",
-        email: "dam@consilting.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Emma Bold",
-        email: "emma@intenso.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Ana Crown",
-        email: "ana.cf@limtel.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Emma Smith",
-        email: "e.smith@kpmg.com.au",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Melody Macy",
-        email: "melody@altbox.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Max Smith",
-        email: "max@kt.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Sean Bean",
-        email: "sean@dellito.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Brian Cox",
-        email: "brian@exchange.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Mikaela Collins",
-        email: "mikaela@pexcom.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Francis Mitcham",
-        email: "f.mitcham@kpmg.com.au",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Olivia Wild",
-        email: "olivia@corpmail.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Neil Owen",
-        email: "owen.neil@gmail.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Dan Wilson",
-        email: "dam@consilting.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Emma Bold",
-        email: "emma@intenso.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Ana Crown",
-        email: "ana.cf@limtel.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Emma Smith",
-        email: "e.smith@kpmg.com.au",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Melody Macy",
-        email: "melody@altbox.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Max Smith",
-        email: "max@kt.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Sean Bean",
-        email: "sean@dellito.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Brian Cox",
-        email: "brian@exchange.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Mikaela Collins",
-        email: "mikaela@pexcom.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Francis Mitcham",
-        email: "f.mitcham@kpmg.com.au",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Olivia Wild",
-        email: "olivia@corpmail.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Neil Owen",
-        email: "owen.neil@gmail.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Dan Wilson",
-        email: "dam@consilting.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Emma Bold",
-        email: "emma@intenso.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-      {
-        id: Math.floor(Math.random() * 99999) + 1,
-        name: "Ana Crown",
-        email: "ana.cf@limtel.com",
-        dateOfCreation: "1-Dec-2022",
-        lastLogin: "3-Apr-2023",
-        totalValue: "$38.00",
-        detail:"view",
-      },
-    ]);
+    const customers = ref<Array<ICustomer>>([]);
     const initCustomers = ref<Array<ICustomer>>([]);
-
-    onMounted(() => {
+    const loading = ref<boolean>(false);
+    loading.value = true;
+    onMounted(async () => {
       MenuComponent.reinitialization();
-      initCustomers.value.splice(0, customers.value.length, ...customers.value);
 
       setCurrentPageBreadcrumbs("User Management", []);
-    });
 
+      try {
+        ApiService.setHeader();
+        await ApiService.get(`${process.env.VUE_APP_API_URL}/v1/users`).then(
+          ({ data }) => {
+            loading.value = false;
+            const userData = data.data; // Access the user data array
+            // customers.value = userData; // Update the customers data property with the new data
+            customers.value = userData.map((user) => ({
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              createdAt: user.createdAt,
+              phone: user.phone,
+              role: user.role,
+              detail: "Detail",
+            }));
+            initCustomers.value.splice(
+              0,
+              customers.value.length,
+              ...customers.value
+            );
+          }
+        );
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      }
+    });
 
     const search = ref<string>("");
     const searchItems = () => {
@@ -841,7 +224,6 @@ export default defineComponent({
       return false;
     };
     const formRef = ref<null | HTMLFormElement>(null);
-    const loading = ref<boolean>(false);
     const state = reactive({
       shortcuts: [
         {
@@ -897,6 +279,8 @@ export default defineComponent({
       }
 
       formRef.value.validate((valid) => {
+        console.log(valid);
+
         if (valid) {
           loading.value = true;
 

@@ -4,7 +4,7 @@
     <div class="card-header border-0 cursor-pointer">
       <!--begin::Card title-->
       <div class="card-title m-0">
-        <h3 class="fw-bolder m-0">Coupon Creation</h3>
+        <h3 class="fw-bolder m-0">Edit Coupon</h3>
       </div>
       <!--end::Card title-->
     </div>
@@ -17,7 +17,8 @@
         id="kt_account_profile_details_form"
         class="form"
         @submit="handleSubmit"
-        :validation-schema="coupon"
+        :validation-schema="rules"
+        v-if="coupon && Object.keys(coupon).length > 0"
       >
         <!--begin::Card body-->
         <div class="card-body border-top p-9">
@@ -35,10 +36,15 @@
                 <Field
                   as="select"
                   name="product_ids[]"
-                  class="form-select form-select-solid"
+                  class="form-select form-select-lg form-select-solid"
+                  data-control="select2"
+                  data-placeholder="Select..."
+                  data-allow-clear="true"
+                  data-hide-search="true"
+                  multiple
                   @input="clearError('product_ids')"
                 >
-                  <option value="" disabled selected>All Products</option>
+                  <option value="" disabled>All Products</option>
                   <template v-if="products.length === 0">
                     <option disabled>Loading...</option>
                   </template>
@@ -47,6 +53,7 @@
                       v-for="product in products"
                       :key="product.id"
                       :value="product.id"
+                      :selected="product.id == 1"
                     >
                       {{ product.name }}
                     </option>
@@ -79,6 +86,7 @@
                 <Field
                   type="text"
                   name="code"
+                  :value="coupon.code"
                   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Code"
                   @input="clearError('code')"
@@ -110,6 +118,7 @@
                 <Field
                   type="text"
                   name="quantity"
+                  :value="coupon.quantity"
                   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Quantity"
                   @input="clearError('quantity')"
@@ -144,6 +153,7 @@
                 <Field
                   type="number"
                   name="limit_per_user"
+                  :value="coupon.limitPerUser"
                   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Limit Per User"
                   @input="clearError('limit_per_user')"
@@ -177,10 +187,15 @@
                 name="type"
                 class="form-select form-select-solid form-select-lg fw-bold"
                 @input="clearError('type')"
+                :value="coupon.type.value"
               >
-                <option value="" selected disabled>Select Type</option>
-                <option value="1" selected>All Products</option>
-                <option value="2">Selected Products</option>
+                <option value="" disabled>Select Type</option>
+                <option :value="1" :selected="coupon.type.value == 1">
+                  All Products
+                </option>
+                <option :value="2" :selected="coupon.type.value == 2">
+                  Selected Products
+                </option>
               </Field>
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -209,9 +224,14 @@
                 name="discount_type"
                 class="form-select form-select-solid form-select-lg fw-bold"
                 @input="clearError('discount_type')"
+                :value="coupon.discountType.value"
               >
-                <option value="1" selected>Percentage</option>
-                <option value="2">Fixed</option>
+                <option value="1" :selected="coupon.discountType.value == 1">
+                  Percentage
+                </option>
+                <option value="2" :selected="coupon.discountType.value == 2">
+                  Fixed
+                </option>
               </Field>
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -243,6 +263,7 @@
                   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Insert"
                   :min="minDate"
+                  :value="formatBack(coupon.startAt)"
                 />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -269,6 +290,7 @@
                   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Insert"
                   :min="minDate"
+                  :value="formatBack(coupon.endAt)"
                 />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -296,6 +318,7 @@
                   name="amount"
                   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="RM XX.XX"
+                  :value="coupon.amount"
                 />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -320,13 +343,19 @@
             <!--begin::Label-->
             <div class="col-lg-6 d-flex align-items-center">
               <div class="form-check form-check-solid form-switch fv-row">
-                <input
-                  class="form-check-input w-45px h-30px"
+                <Field
                   type="checkbox"
-                  id="activate"
+                  class="form-check-input"
                   name="status"
+                  id="activate"
+                  v-model="coupon.status.value"
                 />
                 <label class="form-check-label" for="activate"></label>
+              </div>
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <ErrorMessage name="status" />
+                </div>
               </div>
             </div>
             <!--begin::Label-->
@@ -358,6 +387,13 @@
           >
             Discard
           </router-link>
+          <button
+            type="button"
+            class="btn btn-white btn-light btn-active-light-light me-2"
+            @click="handleDelete()"
+          >
+            Delete
+          </button>
           <button
             type="submit"
             id="kt_account_profile_details_submit"
@@ -391,7 +427,7 @@ import moment from "moment";
 import { useStore } from "vuex";
 import { Mutations } from "@/store/enums/StoreEnums";
 import Swal from "sweetalert2/dist/sweetalert2.min.js";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 export default defineComponent({
   name: "account-settings",
@@ -403,25 +439,37 @@ export default defineComponent({
   setup() {
     //Create form validation object
     const store = useStore();
+    const route = useRoute();
     const router = useRouter();
+    const coupon = ref({});
     const submitButton = ref<HTMLElement | null>(null);
+    const loading = ref<boolean>(false);
+    const couponId = route.params.id;
+
     const errors = computed(() => {
       return store.getters.getErrors;
     });
 
-    const coupon = Yup.object().shape({
+    const rules = Yup.object().shape({
       code: Yup.string().required().label("Code"),
       type: Yup.string().required().label("Discount type"),
       amount: Yup.number().required().min(1).label("Price"),
       start_at: Yup.string().required().label("Start Date"),
       end_at: Yup.string().required().label("End Date"),
       limit_per_user: Yup.number().required().min(1).label("Limit user"),
-      product_ids: Yup.array().required().label("Product ids"),
+      // product_ids: Yup.string().required().label("Product ids"),
     });
 
     const formatDate = (date) => {
       if (date) {
         return moment(String(date)).format("YYYY-MM-DD HH:mm:ss");
+      }
+    };
+
+    // format back to YYYY-MM-DD to set html input value in edit
+    const formatBack = (date) => {
+      if (date) {
+        return moment(String(date)).format("YYYY-MM-DD");
       }
     };
     const clearError = (fieldName) => {
@@ -432,7 +480,6 @@ export default defineComponent({
       const today = new Date().toISOString().split("T")[0];
       return today;
     });
-
     const handleSubmit = async (values) => {
       try {
         store.commit(Mutations.SET_ERROR, {});
@@ -443,14 +490,15 @@ export default defineComponent({
         ApiService.setHeader();
         values.start_at = formatDate(values.start_at);
         values.end_at = formatDate(values.end_at);
+        values.status = values.status == "on" ? 0 : 1;
 
-        await ApiService.post(
-          `${process.env.VUE_APP_API_URL}/v1/coupons`,
+        await ApiService.put(
+          `${process.env.VUE_APP_API_URL}/v1/coupons/${couponId}`,
           values
         )
-          .then((response) => {
+          .then(() => {
             Swal.fire({
-              text: "Coupon successfully added",
+              text: "Coupon successfully updated",
               icon: "success",
               buttonsStyling: false,
               confirmButtonText: "Ok, got it!",
@@ -476,6 +524,38 @@ export default defineComponent({
         submitButton.value?.removeAttribute("data-kt-indicator");
       }
     };
+
+    const handleDelete = async () => {
+      ApiService.setHeader();
+      Swal.fire({
+        text: "Are you sure to delete this",
+        icon: "warning",
+        buttonsStyling: false,
+        confirmButtonText: "Ok, got it!",
+        showCancelButton: true,
+        cancelButtonColor: "#d33",
+        customClass: {
+          confirmButton: "btn fw-bold btn-light-primary",
+          cancelButton: "btn fw-bold btn-light-danger",
+        },
+      }).then(async function (result) {
+        // Go to page after successfully login
+        if (result.isConfirmed) {
+          await ApiService.delete(
+            `${process.env.VUE_APP_API_URL}/v1/coupons/${couponId}`
+          ).then(() => {
+            Swal.fire(
+              "Deleted!",
+              "Your file has been deleted.",
+              "success"
+            ).then(function () {
+              // Go to page after successfully login
+              router.push({ name: "coupon-management" });
+            });
+          });
+        }
+      });
+    };
     const products = ref([]); // Reactive variable to store products
 
     const loadProducts = async () => {
@@ -492,23 +572,42 @@ export default defineComponent({
         console.error("Error fetching products:", error);
       }
     };
+    const loadCoupon = async () => {
+      try {
+        ApiService.setHeader();
+
+        const response = await ApiService.get(
+          `${process.env.VUE_APP_API_URL}/v1/coupons/${couponId}`
+        );
+        // coupon.value.splice(0);
+        coupon.value = response.data.data;
+        // Update the products array with the fetched products
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
     onMounted(async () => {
-      setCurrentPageBreadcrumbs("Coupon Creation", [
+      setCurrentPageBreadcrumbs("Edit Coupon", [
         "Product Management",
         "Coupon Management",
       ]);
-
+      loading.value = true;
+      await loadCoupon();
       await loadProducts();
+      loading.value = false;
     });
 
     return {
       handleSubmit,
-      coupon,
+      rules,
       products,
       submitButton,
       errors,
       clearError,
       minDate,
+      coupon,
+      formatBack,
+      handleDelete,
     };
   },
 });

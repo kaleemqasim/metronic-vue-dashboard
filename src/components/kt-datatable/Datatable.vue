@@ -2,15 +2,7 @@
   <div class="dataTables_wrapper dt-bootstrap4 no-footer">
     <div class="table-responsive">
       <table
-        class="
-          table
-          align-middle
-          table-row-dashed
-          fs-6
-          gy-5
-          dataTable
-          no-footer
-        "
+        class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
         id="kt_customers_table"
         role="grid"
       >
@@ -59,7 +51,7 @@
               <template v-for="(cell, i) in tableHeader" :key="i">
                 <td :class="{ 'text-end': tableHeader.length - 1 === i }">
                   <slot :name="`cell-${cell.key}`" :row="item">
-                    {{ item[prop] }}
+                    {{ item[cell.key] }}
                   </slot>
                 </td>
               </template>
@@ -73,12 +65,7 @@
 
     <div class="row">
       <div
-        class="
-          col-sm-12 col-md-5
-          d-flex
-          align-items-center
-          justify-content-center justify-content-md-start
-        "
+        class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start"
       >
         <div
           v-if="enableItemsPerPageDropdown"
@@ -100,12 +87,7 @@
         </div>
       </div>
       <div
-        class="
-          col-sm-12 col-md-7
-          d-flex
-          align-items-center
-          justify-content-center justify-content-md-end
-        "
+        class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end"
       >
         <el-pagination
           background
@@ -229,6 +211,6 @@ table.dataTable > thead {
 }
 
 .el-pagination.is-background .el-pager li:not(.disabled).active {
-  background-color: #009EF7;
+  background-color: #009ef7;
 }
 </style>

@@ -4,7 +4,7 @@
     <div class="card-header border-0 cursor-pointer">
       <!--begin::Card title-->
       <div class="card-title m-0">
-        <h3 class="fw-bolder m-0">Add Product</h3>
+        <h3 class="fw-bolder m-0">Edit Product</h3>
       </div>
       <!--end::Card title-->
     </div>
@@ -18,7 +18,7 @@
         class="form"
         @submit="handleSubmit"
         :validation-schema="rules"
-        v-if="categories.length > 0"
+        v-if="product && Object.keys(product).length > 0"
       >
         <!--begin::Card body-->
         <div class="card-body border-top p-9">
@@ -40,6 +40,7 @@
                   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Product Name"
                   @input="clearError('name')"
+                  :value="product.name"
                 />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -90,7 +91,7 @@
                 class="form-select form-select-solid form-select-lg fw-bold"
                 @input="clearError('category_id')"
               >
-                <option value="" disabled selected>Select Sub-Category</option>
+                <option value="" disabled>Select Sub-Category</option>
                 <optgroup
                   v-for="category in categories"
                   :label="category.name"
@@ -100,6 +101,7 @@
                     v-for="subcategory in category.subcategories"
                     :value="subcategory.id"
                     :key="subcategory.id"
+                    :selected="product.categoryId == category.id ? true : false"
                   >
                     {{ subcategory.name }}
                   </option>
@@ -129,6 +131,7 @@
                   name="ssm_fee"
                   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Insert"
+                  :value="product.ssm_fee"
                 />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -156,6 +159,7 @@
                   name="service_fee"
                   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Insert"
+                  :value="product.service_fee"
                 />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -183,6 +187,7 @@
                   name="price"
                   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="RM XX.XX"
+                  :value="product.price"
                 />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -210,6 +215,7 @@
                   id="discount"
                   name="is_discountable"
                   :value="true"
+                  :checked="product.is_discountable ? true : false"
                 />
                 <label class="form-check-label" for="discount"></label>
               </div>
@@ -230,6 +236,7 @@
                   id="status"
                   name="status"
                   :value="true"
+                  :checked="product.status ? true : false"
                 />
                 <label class="form-check-label" for="coupon"></label>
               </div>
@@ -251,6 +258,7 @@
           <button
             type="button"
             class="btn btn-white btn-light btn-active-light-light me-2"
+            @click="handleDelete()"
           >
             Delete
           </button>
@@ -282,7 +290,7 @@ import { computed, defineComponent, onBeforeMount, onMounted, ref } from "vue";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { setCurrentPageBreadcrumbs } from "@/core/helpers/breadcrumb";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import * as Yup from "yup";
 import { Mutations } from "@/store/enums/StoreEnums";
 import ApiService from "@/core/services/ApiService";
@@ -297,9 +305,12 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
+    const route = useRoute();
     const submitButton = ref<HTMLElement | null>(null);
     const categories = ref([]);
     const selectedCategoryId = ref(null);
+    const productId = route.params.id;
+    const product = ref({});
     const errors = computed(() => {
       return store.getters.getErrors;
     });
@@ -315,9 +326,38 @@ export default defineComponent({
     const clearError = (fieldName) => {
       store.commit(Mutations.SET_ERROR, { [fieldName]: "" });
     };
-    const handleSubmit = async (values) => {
-      console.log(values);
 
+    const handleDelete = async () => {
+      ApiService.setHeader();
+      Swal.fire({
+        text: "Are you sure to delete this",
+        icon: "warning",
+        buttonsStyling: false,
+        confirmButtonText: "Ok, got it!",
+        showCancelButton: true,
+        cancelButtonColor: "#d33",
+        customClass: {
+          confirmButton: "btn fw-bold btn-light-primary",
+          cancelButton: "btn fw-bold btn-light-danger",
+        },
+      }).then(async function (result) {
+        // Go to page after successfully login
+        if (result.isConfirmed) {
+          await ApiService.delete(
+            `${process.env.VUE_APP_API_URL}/v1/products/${productId}`
+          ).then(() => {
+            Swal.fire(
+              "Deleted!",
+              "Your file has been deleted.",
+              "success"
+            ).then(function () {
+              router.push({ name: "product-management" });
+            });
+          });
+        }
+      });
+    };
+    const handleSubmit = async (values) => {
       try {
         store.commit(Mutations.SET_ERROR, {});
         if (submitButton.value) {
@@ -328,13 +368,13 @@ export default defineComponent({
         values.is_discountable = values.status == undefined ? 0 : 1;
         ApiService.setHeader();
 
-        await ApiService.post(
-          `${process.env.VUE_APP_API_URL}/v1/products`,
+        await ApiService.put(
+          `${process.env.VUE_APP_API_URL}/v1/products/${productId}`,
           values
         )
           .then((response) => {
             Swal.fire({
-              text: "Product successfully added",
+              text: "Product successfully updated",
               icon: "success",
               buttonsStyling: false,
               confirmButtonText: "Ok, got it!",
@@ -361,13 +401,9 @@ export default defineComponent({
       }
     };
 
-    onBeforeMount(async () => {
-      try {
-        ApiService.setHeader();
-
-        await ApiService.get(
-          `${process.env.VUE_APP_API_URL}/v1/categories`
-        ).then((response) => {
+    const loadCategories = async () => {
+      await ApiService.get(`${process.env.VUE_APP_API_URL}/v1/categories`).then(
+        (response) => {
           categories.value.splice(0);
 
           const categoriesData = response.data.data;
@@ -378,14 +414,29 @@ export default defineComponent({
             );
             return { ...category, subcategories };
           });
-        });
+        }
+      );
+    };
+
+    const loadProduct = async () => {
+      await ApiService.get(
+        `${process.env.VUE_APP_API_URL}/v1/products/${productId}`
+      ).then((response) => {
+        product.value = response.data.data;
+      });
+    };
+    onBeforeMount(async () => {
+      try {
+        ApiService.setHeader();
+        loadCategories();
+        loadProduct();
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     });
 
     onMounted(() => {
-      setCurrentPageBreadcrumbs("Add Product", [
+      setCurrentPageBreadcrumbs("Edit Product", [
         "Product Management",
         "Product Listing",
       ]);
@@ -399,6 +450,8 @@ export default defineComponent({
       clearError,
       categories,
       selectedCategoryId,
+      product,
+      handleDelete,
     };
   },
 });

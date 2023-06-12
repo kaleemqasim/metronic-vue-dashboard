@@ -3,6 +3,7 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import JwtService from "@/core/services/JwtService";
 import { AxiosResponse, AxiosRequestConfig } from "axios";
+import { useRouter } from "vue-router";
 
 /**
  * @description service to call HTTP request via Axios
@@ -19,7 +20,24 @@ class ApiService {
   public static init(app: App<Element>) {
     ApiService.vueInstance = app;
     ApiService.vueInstance.use(VueAxios, axios);
-    ApiService.vueInstance.axios.defaults.baseURL = "http://localhost";
+    ApiService.vueInstance.axios.defaults.baseURL = process.env.VUE_APP_API_URL;
+
+    ApiService.vueInstance.axios.interceptors.response.use(
+      (response: AxiosResponse) => {
+        return response;
+      },
+      (error) => {
+        // Check if the error is due to token expiration
+        if (error.response && error.response.status === 401) {
+          // Perform logout action or any other necessary actions
+          // For example, calling the logout method of JwtService
+          JwtService.destroyToken();
+          const router = useRouter();
+          router.push({ name: "sign-in" });
+        }
+        return Promise.reject(error);
+      }
+    );
   }
 
   /**
@@ -28,7 +46,7 @@ class ApiService {
   public static setHeader(): void {
     ApiService.vueInstance.axios.defaults.headers.common[
       "Authorization"
-    ] = `Token ${JwtService.getToken()}`;
+    ] = `Bearer ${JwtService.getToken()}`;
   }
 
   /**
@@ -57,7 +75,7 @@ class ApiService {
     slug = "" as string
   ): Promise<AxiosResponse> {
     return ApiService.vueInstance.axios
-      .get(`${resource}/${slug}`)
+      .get(slug ? `${resource}/${slug}` : resource)
       .catch((error) => {
         throw new Error(`[KT] ApiService ${error}`);
       });

@@ -7,6 +7,7 @@ enum Actions {
   ADD_CLASSNAME = "addClassName",
   VERIFY_AUTH = "verifyAuth",
   LOGIN = "login",
+  ADMIN_LOGIN = "adminLogin",
   LOGOUT = "logout",
   REGISTER = "register",
   UPDATE_USER = "updateUser",
@@ -29,4 +30,10 @@ enum Mutations {
   OVERRIDE_PAGE_LAYOUT_CONFIG = "overridePageLayoutConfig",
 }
 
-export { Actions, Mutations };
+enum Roles {
+  MEMBER = "member",
+  ADMIN = "admin",
+  SUPER_ADMIN = "super_admin",
+}
+
+export { Actions, Mutations, Roles };
